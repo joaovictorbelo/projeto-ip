@@ -1,2 +1,4 @@
 ./raylib
 Makefile
+.vscode
+main.code-workspace
