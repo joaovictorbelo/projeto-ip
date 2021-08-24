@@ -2,3 +2,5 @@
 Makefile
 .vscode
 main.code-workspace
+game
+experiment.c
