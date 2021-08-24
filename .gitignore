@@ -4,3 +4,4 @@ Makefile
 main.code-workspace
 game
 experiment.c
+main.exe
