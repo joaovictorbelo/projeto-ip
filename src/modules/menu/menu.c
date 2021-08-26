@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include <time.h>
 #include <stdlib.h>
-
+#include "../obstacules/obstacules.h"
 
 typedef enum gameScreen {MENU, JOGAR, HISTORIA, SAIR} gameScreen;
 
@@ -55,7 +55,10 @@ void menuScreen() {
     Texture2D exitButtonHover = LoadTextureFromImage(exitButtonImageHover);
     Texture2D backButtonHover = LoadTextureFromImage(backButtonImageHover);
  
-
+    int die = 0;
+    int init_game = 0;
+    Rectangle* obstaclesad = obstacules_init(1);
+    
     UnloadImage(backgroundImage);
     UnloadImage(titleImage);
     UnloadImage(playButtonImage);
@@ -103,17 +106,28 @@ void menuScreen() {
             }
             break;
             case JOGAR:
-                DrawTexture(background, 0.0, 0.0, WHITE);
+                ClearBackground(RAYWHITE);
+                // DrawTexture(background, 0.0, 0.0, WHITE);
+                // Rectangle* obstaclesad = (Rectangle*)malloc(sizeof(Rectangle) * 1);
+                update_obstacules(obstaclesad,1);
+    
+                    
+                // update_obstacules(obstaclesad, 1);
                 //DrawText("gameplay", 190, 200, 20, LIGHTGRAY);
                 DrawTexture(backButton, 10, 600, WHITE);
                 if(CheckCollisionPointRec(mousePos, backButtonBounds))
                 {
                     DrawTexture(backButtonHover, 10, 600, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = MENU;
+                    // die = 1;
                 }
-            break;
+
+                
+                
+                break;
             case HISTORIA:
-                DrawTexture(background, 0.0, 0.0, WHITE);
+                // DrawTexture(background, 0.0, 0.0, WHITE);
+                ClearBackground(RAYWHITE);
                 //DrawText("historia", 190, 200, 20, LIGHTGRAY);
                 DrawTexture(backButton, 10, 600, WHITE);
                 if(CheckCollisionPointRec(mousePos, backButtonBounds))
