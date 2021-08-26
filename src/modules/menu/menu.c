@@ -17,6 +17,7 @@ void menuScreen() {
     // faz um circulo que tem como centro a posicao do mouse
 
     gameScreen currentScreen = MENU;
+    Rectangle player = {30, 30, 80, 80};
 
     InitWindow(screenWidth, screenHeight, "Destroievski");
     SetTargetFPS(60);
@@ -57,8 +58,8 @@ void menuScreen() {
  
     int die = 0;
     int init_game = 0;
-    Rectangle* obstaclesad = obstacules_init(1);
-    
+    Obstacule* obstacles = obstacules_init(2);
+
     UnloadImage(backgroundImage);
     UnloadImage(titleImage);
     UnloadImage(playButtonImage);
@@ -109,7 +110,7 @@ void menuScreen() {
                 ClearBackground(RAYWHITE);
                 // DrawTexture(background, 0.0, 0.0, WHITE);
                 // Rectangle* obstaclesad = (Rectangle*)malloc(sizeof(Rectangle) * 1);
-                update_obstacules(obstaclesad,1);
+                update_obstacules(obstacles, 2);
     
                     
                 // update_obstacules(obstaclesad, 1);
