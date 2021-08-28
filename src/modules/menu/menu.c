@@ -18,10 +18,7 @@ void menuScreen() {
 
     gameScreen currentScreen = MENU;
     Rectangle player = {30, 30, 80, 80};
-
     InitWindow(screenWidth, screenHeight, "Destroievski");
-    SetTargetFPS(60);
-
     Image backgroundImage = LoadImage("./src/asserts/menu/fundo.png");
     Image titleImage = LoadImage("./src/asserts/menu/nome.png");
     Image playButtonImage = LoadImage("./src/asserts/menu/jogar.png"); 
@@ -36,10 +33,7 @@ void menuScreen() {
     
     
     ImageResize(&backgroundImage, screenWidth, screenHeight);
-    ImageResize(&titleImage, titleImage.width/2.7, titleImage.height/2.9);
     ImageResize(&playButtonImage, playButtonImage.width/2.7, playButtonImage.height/2.9);
-    ImageResize(&storyButtonImage, storyButtonImage.width/2.7, storyButtonImage.height/2.9);
-    ImageResize(&exitButtonImage, exitButtonImage.width/2.7, exitButtonImage.height/2.9);
     ImageResize(&backButtonImage, backButtonImage.width/2.7, backButtonImage.height/2.9);
     ImageResize(&playButtonImageHover, playButtonImageHover.width/2.7, playButtonImageHover.height/2.9);
     ImageResize(&storyButtonImageHover, storyButtonImageHover.width/2.7, storyButtonImageHover.height/2.9);
@@ -124,30 +118,21 @@ void menuScreen() {
                 {
                     DrawTexture(backButtonHover, 10, 600, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = MENU;
+
                     // die = 1;
                 }
 
-                
                 
                 break;
             case HISTORIA:
                 // DrawTexture(background, 0.0, 0.0, WHITE);
                 ClearBackground(RAYWHITE);
-                //DrawText("historia", 190, 200, 20, LIGHTGRAY);
-                DrawTexture(backButton, 10, 600, WHITE);
-                if(CheckCollisionPointRec(mousePos, backButtonBounds))
-                {
-                    DrawTexture(backButtonHover, 10, 600, WHITE);
-                    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = MENU;
+
                 }
-                break;
-            case SAIR:
-                DrawTexture(background, 0.0, 0.0, WHITE);
-                break;
+            break;
         }
         
         EndDrawing();
-    }
 
     UnloadTexture(background);
     UnloadTexture(title);

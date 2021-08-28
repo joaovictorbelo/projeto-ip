@@ -1,7 +1,7 @@
 
 #include "raylib.h"
 
-int main(void)
+void generateCenario(void)
 {
     // Initialization
     //--------------------------------------------------------------------------------------
