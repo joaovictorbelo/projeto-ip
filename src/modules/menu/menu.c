@@ -81,29 +81,29 @@ void menuScreen() {
 
         switch (currentScreen) {
             case MENU:
-            DrawTexture(background, 0.0, 0.0, WHITE);
-            DrawTexture(title, 0.0, 0.0, WHITE);
-            // DrawCircleV(GetMousePosition(), 10, ORANGE);
-            DrawTexture(playButton, (screenWidth / 2.0 - playButtonImage.width / 2.0), 275, WHITE);
-            DrawTexture(storyButton, (screenWidth / 2.0 - storyButtonImage.width / 2.0), 375, WHITE);
-            DrawTexture(exitButton, (screenWidth / 2.0 - exitButtonImage.width / 2.0), 475, WHITE);
+                DrawTexture(background, 0.0, 0.0, WHITE);
+                DrawTexture(title, 0.0, 0.0, WHITE);
+                // DrawCircleV(GetMousePosition(), 10, ORANGE);
+                DrawTexture(playButton, (screenWidth / 2.0 - playButtonImage.width / 2.0), 275, WHITE);
+                DrawTexture(storyButton, (screenWidth / 2.0 - storyButtonImage.width / 2.0), 375, WHITE);
+                DrawTexture(exitButton, (screenWidth / 2.0 - exitButtonImage.width / 2.0), 475, WHITE);
 
-            if (CheckCollisionPointRec(mousePos, playButtonBounds))
-            {
-                DrawTexture(playButtonHover, (screenWidth / 2.0 - playButtonImage.width / 2.0), 275, WHITE);
-                if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = JOGAR;
-            }
-            if (CheckCollisionPointRec(mousePos, storyButtonBounds))
-            {
-                DrawTexture(storyButtonHover, (screenWidth / 2.0 - storyButtonImage.width / 2.0), 375, WHITE);
-                if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = HISTORIA;
-            }
-            if (CheckCollisionPointRec(mousePos, exitButtonBounds))
-            {
-                DrawTexture(exitButtonHover, (screenWidth / 2.0 - exitButtonImage.width / 2.0), 475, WHITE);
-                if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = SAIR;
-            }
-            break;
+                if (CheckCollisionPointRec(mousePos, playButtonBounds))
+                {
+                    DrawTexture(playButtonHover, (screenWidth / 2.0 - playButtonImage.width / 2.0), 275, WHITE);
+                    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = JOGAR;
+                }
+                if (CheckCollisionPointRec(mousePos, storyButtonBounds))
+                {
+                    DrawTexture(storyButtonHover, (screenWidth / 2.0 - storyButtonImage.width / 2.0), 375, WHITE);
+                    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = HISTORIA;
+                }
+                if (CheckCollisionPointRec(mousePos, exitButtonBounds))
+                {
+                    DrawTexture(exitButtonHover, (screenWidth / 2.0 - exitButtonImage.width / 2.0), 475, WHITE);
+                    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = SAIR;
+                }
+                break;
             case JOGAR:
                 ClearBackground(RAYWHITE);
                 // DrawTexture(background, 0.0, 0.0, WHITE);
@@ -132,7 +132,7 @@ void menuScreen() {
             break;
         }
         
-        EndDrawing();
+    EndDrawing();
 
     UnloadTexture(background);
     UnloadTexture(title);
