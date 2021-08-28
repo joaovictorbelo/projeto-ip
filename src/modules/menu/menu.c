@@ -32,6 +32,7 @@ void menuScreen() {
     Image storyButtonImageHover = LoadImage("./src/asserts/menu/historia-hover.png");
     Image exitButtonImageHover = LoadImage("./src/asserts/menu/sair-hover.png");
     Image backButtonImageHover = LoadImage("./src/asserts/menu/voltar-hover.png");
+    Image* obstaculesImages = obstacules_image(3);
     
     
     ImageResize(&backgroundImage, screenWidth, screenHeight);
@@ -55,10 +56,13 @@ void menuScreen() {
     Texture2D storyButtonHover = LoadTextureFromImage(storyButtonImageHover);
     Texture2D exitButtonHover = LoadTextureFromImage(exitButtonImageHover);
     Texture2D backButtonHover = LoadTextureFromImage(backButtonImageHover);
- 
+    Texture2D* obstacules2d = malloc(sizeof(Image) * 1);
+    obstacules2d = obstacules_texture_2d(3, obstaculesImages);
+
+
     int die = 0;
     int init_game = 0;
-    Obstacule* obstacles = obstacules_init(2);
+    Obstacule* obstacles = obstacules_init(3);
 
     UnloadImage(backgroundImage);
     UnloadImage(titleImage);
@@ -110,7 +114,7 @@ void menuScreen() {
                 ClearBackground(RAYWHITE);
                 // DrawTexture(background, 0.0, 0.0, WHITE);
                 // Rectangle* obstaclesad = (Rectangle*)malloc(sizeof(Rectangle) * 1);
-                update_obstacules(obstacles, 2);
+                update_obstacules(obstacles, 3, obstacules2d);
     
                     
                 // update_obstacules(obstaclesad, 1);

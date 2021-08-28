@@ -1,7 +1,7 @@
 #include "raylib.h"
 #include <stdlib.h>
 #include <time.h>
-
+#include <string.h>
 
 typedef struct {
     float x;
@@ -17,7 +17,7 @@ Obstacule* obstacules_init(int number_of_max_obstacules) {
     Obstacule* obstacules = malloc(sizeof(Obstacule) * number_of_max_obstacules);
     for (int i = 0; i < number_of_max_obstacules; i++) {
         obstacules[i].rect.x = 900;
-        obstacules[i].rect.y = 300 *(i + 1);
+        obstacules[i].rect.y = 100 *(i + 1);
         obstacules[i].rect.width = 40;
         obstacules[i].rect.height = 40;
         obstacules[i].objective.x = -1;
@@ -27,15 +27,9 @@ Obstacule* obstacules_init(int number_of_max_obstacules) {
     return obstacules;    
 }
 
-void render_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_of_obstacules) {
+void render_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_of_obstacules,  Texture2D* obstacules_texture_2d) {
     for (int i = 0; i < obstacules_number_of_obstacules; i++) {
-        if(i == 0) {
-            DrawRectangleRec(obstacules_obstacules[i].rect, RED);
-            // printf("%f\n", obstacules_obstacules[i].y);
-        } else {
-            DrawRectangleRec(obstacules_obstacules[i].rect, GREEN);
-
-        }
+        DrawTexture(obstacules_texture_2d[i], obstacules_obstacules[i].rect.x, obstacules_obstacules[i].rect.y, WHITE);
     }
 }
 
@@ -64,11 +58,7 @@ Obstacule reset_position_of_the_obstacule(Obstacule obstacules) {
     return obstacules;
 }
 
-void test_obstacules() {
-    Rectangle* obstacules_obstacules = obstacules_init(5);
-    int obstacules_number_of_obstacules = 5;
-    render_obstacules(obstacules_obstacules, obstacules_number_of_obstacules);
-}
+
 Rectangle* return_all_rectangles_of_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_of_obstacules) {
     Rectangle* all_rectangles_of_obstacules = NULL;
     all_rectangles_of_obstacules = (Rectangle*) malloc(sizeof(Rectangle) * obstacules_number_of_obstacules);
@@ -79,7 +69,24 @@ Rectangle* return_all_rectangles_of_obstacules(Obstacule* obstacules_obstacules,
     return all_rectangles_of_obstacules;
 }
 
-void update_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_of_obstacules) {
+Image* obstacules_image(int obstacules_number_of_obstacules) {
+    Image* obstacules_image = (Image*) malloc(sizeof(Image) * obstacules_number_of_obstacules);
+    obstacules_image[0] = LoadImage("./src/asserts/obstacules/cabo.png");
+    obstacules_image[1] = LoadImage("src/asserts/obstacules/ciro.png");
+    obstacules_image[2] = LoadImage("src/asserts/obstacules/sat.png");
+
+    return obstacules_image;
+};
+
+Texture2D* obstacules_texture_2d(int obstacules_number_of_obstacules, Image* obstacules_texture) {
+    Texture2D* obstacules_texture_2d = (Texture2D*) malloc(sizeof(Texture2D) * obstacules_number_of_obstacules);
+    for (int i = 0; i < obstacules_number_of_obstacules; i++) {
+        obstacules_texture_2d[i] = LoadTextureFromImage(obstacules_texture[i]);
+    }
+    return obstacules_texture_2d;
+}
+
+void update_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_of_obstacules, Texture2D* obstacules_texture_2d) {
     int r = 0;
     for (int i = 0; i < obstacules_number_of_obstacules; i++) {
 
@@ -87,19 +94,15 @@ void update_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_o
             obstacules_obstacules[i] = reset_position_of_the_obstacule(obstacules_obstacules[i]);
         }
         else {
-            // if(i == 1) {
-                // printf("pos y: %f, pox x: %f,is_ativate: %d\n", obstacules_obstacules[i].rect.y, obstacules_obstacules[i].rect.x ,obstacules_obstacules[i].is_active);
-            // }
             obstacules_obstacules[i].is_active = 1;
             
             if(obstacules_obstacules[i].is_active == 1) {
                 obstacules_obstacules[i].rect.y += rand() % 2;
             }
         }
-        // obstacules_obstacules[i].x -= r;
-        // obstacules_obstacules[i].y += r;    
+
     }
-    render_obstacules(obstacules_obstacules, obstacules_number_of_obstacules);
+    render_obstacules(obstacules_obstacules, obstacules_number_of_obstacules, obstacules_texture_2d);
 }
 
 void init_module_obstacules() {
