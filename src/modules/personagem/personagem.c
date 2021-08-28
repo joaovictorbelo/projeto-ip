@@ -12,23 +12,29 @@
 #include "raylib.h"
 #include <stdlib.h>
 
-int main(void)
+typedef struct {
+    Vector2 playerPosition;
+    Vector2 playerSize;
+    Rectangle playerHitbox;
+} Player;
+
+Player jogador(int screenWidth, int screenHeight)
 {
-    // Initialization
-    //--------------------------------------------------------------------------------------
-    const int screenWidth = 800;
-    const int screenHeight = 450;
-    
     // const int sceneSpeed = 1;
     const int gravity = 1;
     int Yvelocity = 0;
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - keyboard input");
+    Player player1;
 
-    Vector2 playerSize = { 30, 40 };
-    Vector2 playerPosition = { 0, screenHeight - playerSize.y};
+    player1.playerSize = (Vector2){30, 40};
+    player1.playerPosition = (Vector2){0, screenHeight - player1.playerSize.y};
 
-    Rectangle playerHitbox = {playerPosition.x, playerPosition.y, playerSize.x, playerSize.y};
+    player1.playerHitbox = (Rectangle){
+        player1.playerPosition.x,
+        player1.playerPosition.y,
+        player1.playerSize.x,
+        player1.playerSize.y
+    };
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -38,22 +44,22 @@ int main(void)
     {
         // Update X position
         //----------------------------------------------------------------------------------
-        if (playerPosition.x > 0) {
+        if (player1.playerPosition.x > 0) {
             // playerPosition.x -= sceneSpeed;
 
             if (IsKeyDown(KEY_LEFT)) {
-               playerPosition.x -= 3; 
+               player1.playerPosition.x -= 3; 
             }
         }
 
-        if ((playerPosition.x < (screenWidth - playerSize.x)) && IsKeyDown(KEY_RIGHT)) {
-            playerPosition.x += 3;
+        if ((player1.playerPosition.x < (screenWidth - player1.playerSize.x)) && IsKeyDown(KEY_RIGHT)) {
+            player1.playerPosition.x += 3;
         }
         //----------------------------------------------------------------------------------
 
         // Update Y position
         //----------------------------------------------------------------------------------
-        if ((playerPosition.y == screenHeight - playerSize.y)) {
+        if ((player1.playerPosition.y == screenHeight - player1.playerSize.y)) {
             if (IsKeyPressed(KEY_UP)) {
                 Yvelocity = 15;
             } else {
@@ -61,29 +67,13 @@ int main(void)
             }
         }
 
-        playerPosition.y -= Yvelocity;
+        player1.playerPosition.y -= Yvelocity;
         Yvelocity -= gravity;
         //----------------------------------------------------------------------------------
 
-        playerHitbox.x = playerPosition.x;
-        playerHitbox.y = playerPosition.y;
-
-        // Draw
-        //----------------------------------------------------------------------------------
-        BeginDrawing();
-
-            ClearBackground(RAYWHITE);
-
-            DrawRectangleV(playerPosition, playerSize, GREEN);
-
-        EndDrawing();
-        //----------------------------------------------------------------------------------
+        player1.playerHitbox.x = player1.playerPosition.x;
+        player1.playerHitbox.y = player1.playerPosition.y;
     }
 
-    // De-Initialization
-    //--------------------------------------------------------------------------------------
-    CloseWindow();        // Close window and OpenGL context
-    //--------------------------------------------------------------------------------------
-
-    return 0;
+    return player1;
 }
