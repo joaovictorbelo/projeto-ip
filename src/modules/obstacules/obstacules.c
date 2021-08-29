@@ -26,20 +26,20 @@ Obstacule* obstacules_init(int number_of_max_obstacules) {
         obstacules[i].is_active = 0;
     }
     return obstacules;    
-}
+};
 
 void render_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_of_obstacules,  Texture2D* obstacules_texture_2d) {
     for (int i = 0; i < obstacules_number_of_obstacules; i++) {
         DrawTexture(obstacules_texture_2d[i], obstacules_obstacules[i].rect.x, obstacules_obstacules[i].rect.y, WHITE);
     }
-}
+};
 
 Objective create_action_obstacule(Rectangle actual_obs, float player_x, float player_y) {
     Objective action_obstacule;
     action_obstacule.x = player_x + (rand() % 100) - 50;
     action_obstacule.y = player_y;
     return action_obstacule;   
-}
+};
 
 float* calculate_vel_x_and_vel_y_of_the_obstacule(Objective action_obstacule, float player_x, float player_y) {
     float* vel_x_and_vel_y_of_the_obstacule = (float*) malloc(sizeof(float) * 2);
@@ -48,7 +48,7 @@ float* calculate_vel_x_and_vel_y_of_the_obstacule(Objective action_obstacule, fl
     vel_x_and_vel_y_of_the_obstacule[0] = vel_x_and_vel_y_of_the_obstacule_x;
     vel_x_and_vel_y_of_the_obstacule[1] = vel_x_and_vel_y_of_the_obstacule_y;
     return vel_x_and_vel_y_of_the_obstacule;
-}
+};
 
 Obstacule reset_position_of_the_obstacule(Obstacule obstacules) {  
     obstacules.rect.x = 900;
@@ -57,7 +57,7 @@ Obstacule reset_position_of_the_obstacule(Obstacule obstacules) {
     obstacules.objective.y = -1;
     obstacules.is_active = 1;
     return obstacules;
-}
+};
 
 
 Rectangle* return_all_rectangles_of_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_of_obstacules) {
@@ -68,7 +68,7 @@ Rectangle* return_all_rectangles_of_obstacules(Obstacule* obstacules_obstacules,
         all_rectangles_of_obstacules[i] = obstacules_obstacules[i].rect;
     }
     return all_rectangles_of_obstacules;
-}
+};
 
 Image* obstacules_image(int obstacules_number_of_obstacules) {
     Image* obstacules_image = (Image*) malloc(sizeof(Image) * obstacules_number_of_obstacules);
@@ -86,7 +86,7 @@ Texture2D* obstacules_texture_2d(int obstacules_number_of_obstacules, Image* obs
         obstacules_texture_2d[i] = LoadTextureFromImage(obstacules_texture[i]);
     }
     return obstacules_texture_2d;
-}
+};
 
 void update_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_of_obstacules, Texture2D* obstacules_texture_2d) {
     int r = 0;
@@ -106,9 +106,18 @@ void update_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_o
 
     }
     render_obstacules(obstacules_obstacules, obstacules_number_of_obstacules, obstacules_texture_2d);
-}
+};
+
+void unloadALlObstaculesImages(int NumOfObstacules, Image* imagesOfObstacules) {
+    int i = 0;
+
+    for(i = 0; i < NumOfObstacules; i++) {
+        UnloadImage(imagesOfObstacules[i]);
+    }
+
+};
 
 void init_module_obstacules() {
     Rectangle* obstacules_obstacules = obstacules_init(5);
     int obstacules_number_of_obstacules = 5;
-}
+};

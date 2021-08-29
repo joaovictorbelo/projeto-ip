@@ -6,6 +6,7 @@
 #include "../cenario/cenario.h"
 #include "../items/items.h"
 #include "../lost/lost.h"
+#define NUMBER_OF_OBSTACLES 4
 
 typedef enum gameScreen {MENU, JOGAR, HISTORIA, MORTE ,SAIR} gameScreen;
 
@@ -17,8 +18,8 @@ void menuScreen() {
 
     const int screenWidth = 1280;
     const int screenHeight = 720;
-    const int numberOfObstacules = 4;
-
+    
+    int chooseAfterDeath = -1;
 
     int actualPosOfHistoryText = 0;
 
@@ -48,7 +49,7 @@ void menuScreen() {
     Image returnButtonImageHover = LoadImage("./src/asserts/menu/return-hover.png");
     Image LostBackgroundImage = loadImageOfLostScreen(screenWidth, screenHeight);
     
-    Image* obstaculesImages = obstacules_image(numberOfObstacules);
+    Image* obstaculesImages = obstacules_image(NUMBER_OF_OBSTACLES);
     Image* itemsImages = items_image(1);
     
 
@@ -85,10 +86,10 @@ void menuScreen() {
     Texture2D* obstacules2d = malloc(sizeof(Texture2D) * 1);
     Texture2D* items2d = malloc(sizeof(Texture2D) * 1);
      
-    obstacules2d = obstacules_texture_2d(numberOfObstacules, obstaculesImages);
+    obstacules2d = obstacules_texture_2d(NUMBER_OF_OBSTACLES, obstaculesImages);
     items2d = items_texture_2d(1, itemsImages);
 
-    Obstacule* obstacles = obstacules_init(numberOfObstacules);
+    Obstacule* obstacles = obstacules_init(NUMBER_OF_OBSTACLES);
     Items* items = itemsInit(1);
     int points = 0;
 
@@ -104,7 +105,9 @@ void menuScreen() {
     UnloadImage(backButtonImageHover);
     UnloadImage(returnButtonImage);
     UnloadImage(returnButtonImageHover);
-
+    UnloadImage(LostBackgroundImage);
+    unloadALlObstaculesImages(NUMBER_OF_OBSTACLES, obstaculesImages);
+    unloadALlItemsImages(1, itemsImages);
     Rectangle playButtonBounds = { screenWidth/2.0 - playButtonImage.width/2.0, 275, playButtonImage.width, playButtonImage.height };
     Rectangle storyButtonBounds = { screenWidth/2.0 - storyButtonImage.width/2.0, 375, storyButtonImage.width, storyButtonImage.height };
     Rectangle exitButtonBounds = { screenWidth/2.0 - exitButtonImage.width/2.0, 475, exitButtonImage.width, exitButtonImage.height };
@@ -144,9 +147,9 @@ void menuScreen() {
             
             case JOGAR:
                 ClearBackground(RAYWHITE);
-                generateCenario(backgroundInGame, &scrollingBack, points);
-                update_obstacules(obstacles, numberOfObstacules, obstacules2d);
-                update_items(items, 1, items2d);
+                generateCenario(backgroundInGame, &scrollingBack, points, obstacles, obstacules2d, items, items2d);
+                //update_obstacules(obstacles, numberOfObstacules, obstacules2d);
+                //update_items(items, 1, items2d);
                 DrawTexture(backButton, 10, 600, WHITE);
                 if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
                     DrawTexture(backButtonHover, 10, 600, WHITE);
@@ -170,8 +173,16 @@ void menuScreen() {
                 break;
             case MORTE:
                 ClearBackground(RAYWHITE);
-                DrawLostScreen(backgroundInLostScreen);
+                chooseAfterDeath = DrawLostScreen(backgroundInLostScreen, font);
+                if(chooseAfterDeath == 0) {
+                    currentScreen = MENU;
+                }
+                else if(chooseAfterDeath == 1) {
+                    currentScreen = JOGAR;
+                }
+
                 break;
+
             case SAIR:
                 DrawTexture(background, 0.0, 0.0, WHITE);
                 break;

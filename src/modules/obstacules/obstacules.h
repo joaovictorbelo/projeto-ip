@@ -12,6 +12,7 @@ Rectangle* return_all_rectangles_of_obstacules(Obstacule* obstacules_obstacules,
 Image* obstacules_image(int obstacules_number_of_obstacules);
 Texture2D* obstacules_texture_2d(int obstacules_number_of_obstacules, Image* obstacules_texture);
 void update_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_of_obstacules, Texture2D* obstacules_texture_2d) ;
+void unloadALlObstaculesImages(int NumOfObstacules, Image* imagesOfObstacules);
 void init_module_obstacules();
 
 #endif

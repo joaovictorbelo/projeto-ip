@@ -107,6 +107,15 @@ void update_items(Items* items_items, int items_number_of_items, Texture2D* item
     render_items(items_items, items_number_of_items, items_texture_2d);
 }
 
+void unloadALlItemsImages(int NumOfItems, Image* imagesOfItems) {
+    int i = 0;
+
+    for(i = 0; i < NumOfItems; i++) {
+        UnloadImage(imagesOfItems[i]);
+    }
+
+}
+
 void init_module_items() {
     Rectangle* items_items = itemsInit(5);
     int items_number_of_items = 5;

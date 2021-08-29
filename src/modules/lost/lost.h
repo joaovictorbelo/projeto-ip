@@ -3,6 +3,6 @@
 #include "lost.c"
 
 Image loadImageOfLostScreen(int screenWidth, int screenHeight);
-void DrawLostScreen(Texture2D background);
+int DrawLostScreen(Texture2D background, Font font);
 
 #endif
