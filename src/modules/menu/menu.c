@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include "../obstacules/obstacules.h"
 #include "../historia/historia.h"
+#include "../cenario/cenario.h"
+
 typedef enum gameScreen {MENU, JOGAR, HISTORIA, SAIR} gameScreen;
 
 void menuScreen() {
@@ -10,6 +12,7 @@ void menuScreen() {
         2.7 -> Escala utilizada para reduzir a largura.
         2.9 -> Escala utilizada para reduzir a altura.
     */
+
     const int screenWidth = 1280;
     const int screenHeight = 720;
     
@@ -34,9 +37,9 @@ void menuScreen() {
     Image storyButtonImageHover = LoadImage("./src/asserts/menu/historia-hover.png");
     Image exitButtonImageHover = LoadImage("./src/asserts/menu/sair-hover.png");
     Image backButtonImageHover = LoadImage("./src/asserts/menu/voltar-hover.png");
-    Image* obstaculesImages = obstacules_image(3);
     Image returnButtonImage = LoadImage("./src/asserts/menu/return.png");
     Image returnButtonImageHover = LoadImage("./src/asserts/menu/return-hover.png");
+    Image* obstaculesImages = obstacules_image(3);
     
     
     ImageResize(&backgroundImage, screenWidth, screenHeight);
@@ -63,16 +66,13 @@ void menuScreen() {
     Texture2D storyButtonHover = LoadTextureFromImage(storyButtonImageHover);
     Texture2D exitButtonHover = LoadTextureFromImage(exitButtonImageHover);
     Texture2D backButtonHover = LoadTextureFromImage(backButtonImageHover);
-    Texture2D* obstacules2d = malloc(sizeof(Image) * 1);
     Texture2D returnButton = LoadTextureFromImage(returnButtonImage);
     Texture2D returnButtonHover = LoadTextureFromImage(returnButtonImageHover);
-
-
+    Texture2D backgroundInGame = LoadTexture("./src/asserts/cenario/backgroundGameplay.png");
+    
+    Texture2D* obstacules2d = malloc(sizeof(Image) * 1);
     obstacules2d = obstacules_texture_2d(3, obstaculesImages);
 
-
-    int die = 0;
-    int init_game = 0;
     Obstacule* obstacles = obstacules_init(3);
 
     UnloadImage(backgroundImage);
@@ -109,51 +109,51 @@ void menuScreen() {
                 DrawTexture(storyButton, (screenWidth / 2.0 - storyButtonImage.width / 2.0), 375, WHITE);
                 DrawTexture(exitButton, (screenWidth / 2.0 - exitButtonImage.width / 2.0), 475, WHITE);
 
-                if (CheckCollisionPointRec(mousePos, playButtonBounds))
-                {
+                if (CheckCollisionPointRec(mousePos, playButtonBounds)) {
                     DrawTexture(playButtonHover, (screenWidth / 2.0 - playButtonImage.width / 2.0), 275, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = JOGAR;
                 }
-                if (CheckCollisionPointRec(mousePos, storyButtonBounds))
-                {
+                
+                if (CheckCollisionPointRec(mousePos, storyButtonBounds)) {
                     DrawTexture(storyButtonHover, (screenWidth / 2.0 - storyButtonImage.width / 2.0), 375, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = HISTORIA;
                 }
-                if (CheckCollisionPointRec(mousePos, exitButtonBounds))
-                {
+
+                if (CheckCollisionPointRec(mousePos, exitButtonBounds)) {
                     DrawTexture(exitButtonHover, (screenWidth / 2.0 - exitButtonImage.width / 2.0), 475, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = SAIR;
                 }
                 break;
+            
             case JOGAR:
                 ClearBackground(RAYWHITE);
                 update_obstacules(obstacles, 3, obstacules2d);
-    
-                    
+                generateCenario(backgroundInGame);
                 DrawTexture(backButton, 10, 600, WHITE);
-                if(CheckCollisionPointRec(mousePos, backButtonBounds))
-                {
+                if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
                     DrawTexture(backButtonHover, 10, 600, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = MENU;
                 }
 
                               
                 break;
+            
             case HISTORIA:
                 ClearBackground(RAYWHITE);
 
                 actualPosOfHistoryText = historiaScreen(background, font, returnButton, returnButtonHover, 
                 actualPosOfHistoryText);
+                
                 if(actualPosOfHistoryText == -1) {
                     currentScreen = MENU;
                 }
                 
-                if(CheckCollisionPointRec(mousePos, backButtonBounds))
-                {
+                if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
                     DrawTexture(backButtonHover, 10, 600, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = MENU;
                 }
                 break;
+            
             case SAIR:
                 DrawTexture(background, 0.0, 0.0, WHITE);
                 break;

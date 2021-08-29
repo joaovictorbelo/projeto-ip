@@ -1,6 +1,8 @@
 #ifndef CENARIO_H
 #define CENARIO_H
 #include "cenario.c"
-void generateCenario();
+
+
+void generateCenario(Texture2D background);
 
 #endif
