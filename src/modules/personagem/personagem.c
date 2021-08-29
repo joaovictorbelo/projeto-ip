@@ -1,68 +1,93 @@
 #include "raylib.h"
 #include <stdlib.h>
 
-typedef struct {
+typedef struct Player{
     Vector2 playerPosition;
     Vector2 playerSize;
     Rectangle playerHitbox;
+    float Yvelocity;
 } Player;
 
-Player jogador(int screenWidth, int screenHeight)
-{
-    // const int sceneSpeed = 1;
-    const int gravity = 1;
-    int Yvelocity = 0;
+Player initPlayer(int screenWidth, int screenHeight){
+    Player player;
 
-    Player player1;
+    player.playerSize = (Vector2){30, 85};
+    player.playerPosition = (Vector2){0, screenHeight - player.playerSize.y};
 
-    player1.playerSize = (Vector2){30, 40};
-    player1.playerPosition = (Vector2){0, screenHeight - player1.playerSize.y};
+    player.Yvelocity = 0;
 
-    player1.playerHitbox = (Rectangle){
-        player1.playerPosition.x,
-        player1.playerPosition.y,
-        player1.playerSize.x,
-        player1.playerSize.y
+    player.playerHitbox = (Rectangle){
+        player.playerPosition.x,
+        player.playerPosition.y,
+        player.playerSize.x,
+        player.playerSize.y
     };
 
-    SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
-    //--------------------------------------------------------------------------------------
+    return player;
+}
 
-    // Main game loop
-    while (!WindowShouldClose())    // Detect window close button or ESC key
-    {
-        // Update X position
-        //----------------------------------------------------------------------------------
-        if (player1.playerPosition.x > 0) {
-            // playerPosition.x -= sceneSpeed;
+void renderPlayerWalking(Player player, int *frameCounter) {
+    Texture2D cabo1 = LoadTexture("./src/asserts/jogador/cabo1.png");
+    Texture2D cabo2 = LoadTexture("./src/asserts/jogador/cabo2.png");
+    Texture2D cabo3 = LoadTexture("./src/asserts/jogador/cabo3.png");
+
+    if ((*frameCounter) >= 0 && (*frameCounter) <= 15) {
+        DrawTextureEx(cabo2, (Vector2)player.playerPosition,0.0f, 1.0f, WHITE);
+    } else if ((*frameCounter) > 15 && (*frameCounter) <= 30) {
+        DrawTextureEx(cabo1, (Vector2)player.playerPosition,0.0f, 1.0f, WHITE);
+    } else if ((*frameCounter) > 30 && (*frameCounter) <= 45) {
+        DrawTextureEx(cabo3, (Vector2)player.playerPosition,0.0f, 1.0f, WHITE);
+    } else if ((*frameCounter) > 45 && (*frameCounter) <= 60) {
+        DrawTextureEx(cabo1, (Vector2)player.playerPosition,0.0f, 1.0f, WHITE);
+    }
+    
+    if ((*frameCounter) == 60) {
+        (*frameCounter) = 0;
+    }
+
+    (*frameCounter)++;
+}
+
+void renderPlayerStanding(Player player) {
+    Texture2D cabo1 = LoadTexture("./src/asserts/jogador/cabo1.png");
+    
+    DrawTextureEx(cabo1, (Vector2)player.playerPosition,0.0f, 1.0f, WHITE);
+}
+
+void updatePlayer(Player *player, int screenWidth, int screenHeight, float gravity, int *frameCounter){
+
+    if ((*player).playerPosition.x > 0) {
 
             if (IsKeyDown(KEY_LEFT)) {
-               player1.playerPosition.x -= 3; 
+               (*player).playerPosition.x -= 3; 
             }
         }
 
-        if ((player1.playerPosition.x < (screenWidth - player1.playerSize.x)) && IsKeyDown(KEY_RIGHT)) {
-            player1.playerPosition.x += 3;
+        if (((*player).playerPosition.x < (screenWidth - (*player).playerSize.x)) && IsKeyDown(KEY_RIGHT)) {
+            (*player).playerPosition.x += 3;
         }
         //----------------------------------------------------------------------------------
 
         // Update Y position
         //----------------------------------------------------------------------------------
-        if ((player1.playerPosition.y == screenHeight - player1.playerSize.y)) {
+        if (((*player).playerPosition.y == screenHeight - (*player).playerSize.y)) {
             if (IsKeyPressed(KEY_UP)) {
-                Yvelocity = 15;
+                (*player).Yvelocity = 15.0;
             } else {
-                Yvelocity = 0;
+                (*player).Yvelocity = 0;
             }
         }
 
-        player1.playerPosition.y -= Yvelocity;
-        Yvelocity -= gravity;
+        (*player).playerPosition.y -= (*player).Yvelocity;
+        (*player).Yvelocity -= gravity;
         //----------------------------------------------------------------------------------
 
-        player1.playerHitbox.x = player1.playerPosition.x;
-        player1.playerHitbox.y = player1.playerPosition.y;
-    }
+        (*player).playerHitbox.x = (*player).playerPosition.x;
+        (*player).playerHitbox.y = (*player).playerPosition.y;
 
-    return player1;
+        if (IsKeyDown(KEY_RIGHT)) {
+            renderPlayerWalking(*player, frameCounter);
+        } else {
+            renderPlayerStanding(*player);
+        }
 }
