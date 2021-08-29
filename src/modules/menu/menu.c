@@ -2,6 +2,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include "../obstacules/obstacules.h"
+#include "../personagem/personagem.h"
 #include "../historia/historia.h"
 #include "../cenario/cenario.h"
 #include "../items/items.h"
@@ -92,6 +93,7 @@ void menuScreen() {
     Obstacule* obstacles = obstacules_init(NUMBER_OF_OBSTACLES);
     Items* items = itemsInit(1);
     int points = 0;
+    int frameCounter = 0;
 
     UnloadImage(backgroundImage);
     UnloadImage(titleImage);
@@ -115,6 +117,8 @@ void menuScreen() {
     
 
     Font font = LoadFont("./src/font/BarlowCondensed-SemiBold.ttf"); 
+
+    Player player1 = initPlayer(screenWidth, screenHeight);
 
     while (!WindowShouldClose() && currentScreen != SAIR) { 
         ClearBackground(RAYWHITE);
@@ -151,6 +155,9 @@ void menuScreen() {
                 //update_obstacules(obstacles, numberOfObstacules, obstacules2d);
                 //update_items(items, 1, items2d);
                 DrawTexture(backButton, 10, 600, WHITE);
+
+                updatePlayer(&player1, screenWidth, screenHeight, 0.5, &frameCounter);
+
                 if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
                     DrawTexture(backButtonHover, 10, 600, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = MENU;
