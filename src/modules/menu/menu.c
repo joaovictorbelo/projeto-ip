@@ -68,6 +68,7 @@ void menuScreen() {
     Texture2D backButtonHover = LoadTextureFromImage(backButtonImageHover);
     Texture2D returnButton = LoadTextureFromImage(returnButtonImage);
     Texture2D returnButtonHover = LoadTextureFromImage(returnButtonImageHover);
+    
     Texture2D backgroundInGame = LoadTexture("./src/asserts/cenario/backgroundGameplay.png");
     
     Texture2D* obstacules2d = malloc(sizeof(Image) * 1);
@@ -127,8 +128,8 @@ void menuScreen() {
             
             case JOGAR:
                 ClearBackground(RAYWHITE);
-                update_obstacules(obstacles, 3, obstacules2d);
                 generateCenario(backgroundInGame);
+                update_obstacules(obstacles, 3, obstacules2d);
                 DrawTexture(backButton, 10, 600, WHITE);
                 if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
                     DrawTexture(backButtonHover, 10, 600, WHITE);
