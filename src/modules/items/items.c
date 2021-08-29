@@ -12,23 +12,23 @@ typedef struct {
     Rectangle rect;
     Objective objective;
     int is_active;
-} Obstacule;
+} Items;
 
-Obstacule* obstacules_init(int number_of_max_obstacules) {
-    Obstacule* obstacules = malloc(sizeof(Obstacule) * number_of_max_obstacules);
-    for (int i = 0; i < number_of_max_obstacules; i++) {
-        obstacules[i].rect.x = 900;
-        obstacules[i].rect.y = 10 *(i + 1);
-        obstacules[i].rect.width = 40;
-        obstacules[i].rect.height = 40;
-        obstacules[i].objective.x = -1;
-        obstacules[i].objective.y = -1;
-        obstacules[i].is_active = 0;
+Items* itemsInit(int number_of_max_items) {
+    Items* items = malloc(sizeof(Items) * number_of_max_items);
+    for (int i = 0; i < number_of_max_items; i++) {
+        items[i].rect.x = 900;
+        items[i].rect.y = 10 *(i + 1);
+        items[i].rect.width = 40;
+        items[i].rect.height = 40;
+        items[i].objective.x = -1;
+        items[i].objective.y = -1;
+        items[i].is_active = 0;
     }
-    return obstacules;    
+    return items;    
 }
 
-void render_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_of_obstacules,  Texture2D* obstacules_texture_2d) {
+void render_items(Items* obstacules_obstacules, int obstacules_number_of_obstacules,  Texture2D* obstacules_texture_2d) {
     for (int i = 0; i < obstacules_number_of_obstacules; i++) {
         DrawTexture(obstacules_texture_2d[i], obstacules_obstacules[i].rect.x, obstacules_obstacules[i].rect.y, WHITE);
     }
@@ -50,7 +50,7 @@ float* calculate_vel_x_and_vel_y_of_the_obstacule(Objective action_obstacule, fl
     return vel_x_and_vel_y_of_the_obstacule;
 }
 
-Obstacule reset_position_of_the_obstacule(Obstacule obstacules) {  
+Items reset_position_of_the_obstacule(Items obstacules) {  
     obstacules.rect.x = 900;
     obstacules.rect.y = 20;
     obstacules.objective.x = -1;
@@ -60,7 +60,7 @@ Obstacule reset_position_of_the_obstacule(Obstacule obstacules) {
 }
 
 
-Rectangle* return_all_rectangles_of_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_of_obstacules) {
+Rectangle* return_all_rectangles_of_obstacules(Items* obstacules_obstacules, int obstacules_number_of_obstacules) {
     Rectangle* all_rectangles_of_obstacules = NULL;
     all_rectangles_of_obstacules = (Rectangle*) malloc(sizeof(Rectangle) * obstacules_number_of_obstacules);
     
@@ -72,9 +72,9 @@ Rectangle* return_all_rectangles_of_obstacules(Obstacule* obstacules_obstacules,
 
 Image* obstacules_image(int obstacules_number_of_obstacules) {
     Image* obstacules_image = (Image*) malloc(sizeof(Image) * obstacules_number_of_obstacules);
-    obstacules_image[0] = LoadImage("./src/asserts/obstacules/cabo_mau_novo.png");
-    obstacules_image[1] = LoadImage("src/asserts/obstacules/ciro_novo_novo.png");
-    obstacules_image[2] = LoadImage("src/asserts/obstacules/cabo_novo.png");
+    obstacules_image[0] = LoadImage("./src/asserts/items/.png");
+    obstacules_image[1] = LoadImage("src/asserts/items/.png");
+    obstacules_image[2] = LoadImage("src/asserts/items/.png");
 
     return obstacules_image;
 };
@@ -87,7 +87,7 @@ Texture2D* obstacules_texture_2d(int obstacules_number_of_obstacules, Image* obs
     return obstacules_texture_2d;
 }
 
-void update_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_of_obstacules, Texture2D* obstacules_texture_2d) {
+void update_items(Items* obstacules_obstacules, int obstacules_number_of_obstacules, Texture2D* obstacules_texture_2d) {
     int r = 0;
     for (int i = 0; i < obstacules_number_of_obstacules; i++) {
 
@@ -99,7 +99,7 @@ void update_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_o
             
             if(obstacules_obstacules[i].is_active == 1) {
                 obstacules_obstacules[i].rect.y += rand() % 5;
-                obstacules_obstacules[i].rect.x -= rand() % 5;
+                // obstacules_obstacules[i].rect.x -= rand() % 5;
             }
         }
 
