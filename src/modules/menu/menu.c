@@ -5,8 +5,9 @@
 #include "../historia/historia.h"
 #include "../cenario/cenario.h"
 #include "../items/items.h"
+#include "../lost/lost.h"
 
-typedef enum gameScreen {MENU, JOGAR, HISTORIA, SAIR} gameScreen;
+typedef enum gameScreen {MENU, JOGAR, HISTORIA, MORTE ,SAIR} gameScreen;
 
 void menuScreen() {
     /* 
@@ -45,9 +46,11 @@ void menuScreen() {
     Image backButtonImageHover = LoadImage("./src/asserts/menu/voltar-hover.png");
     Image returnButtonImage = LoadImage("./src/asserts/menu/return.png");
     Image returnButtonImageHover = LoadImage("./src/asserts/menu/return-hover.png");
+    Image LostBackgroundImage = loadImageOfLostScreen(screenWidth, screenHeight);
+    
     Image* obstaculesImages = obstacules_image(numberOfObstacules);
     Image* itemsImages = items_image(1);
-
+    
 
     ImageResize(&backgroundImage, screenWidth, screenHeight);
     ImageResize(&titleImage, titleImage.width/2.7, titleImage.height/2.9);
@@ -75,7 +78,8 @@ void menuScreen() {
     Texture2D backButtonHover = LoadTextureFromImage(backButtonImageHover);
     Texture2D returnButton = LoadTextureFromImage(returnButtonImage);
     Texture2D returnButtonHover = LoadTextureFromImage(returnButtonImageHover);
-    
+    Texture2D backgroundInLostScreen = LoadTextureFromImage(LostBackgroundImage);
+
     Texture2D backgroundInGame = LoadTexture("./src/asserts/cenario/backgroundGameplay.png");
 
     Texture2D* obstacules2d = malloc(sizeof(Texture2D) * 1);
@@ -146,8 +150,8 @@ void menuScreen() {
                 DrawTexture(backButton, 10, 600, WHITE);
                 if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
                     DrawTexture(backButtonHover, 10, 600, WHITE);
-                    points++;
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = MENU;
+                    currentScreen = MORTE;
                 }
 
                               
@@ -164,7 +168,10 @@ void menuScreen() {
                 }
                 
                 break;
-            
+            case MORTE:
+                ClearBackground(RAYWHITE);
+                DrawLostScreen(backgroundInLostScreen);
+                break;
             case SAIR:
                 DrawTexture(background, 0.0, 0.0, WHITE);
                 break;
