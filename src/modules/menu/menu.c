@@ -19,6 +19,9 @@ void menuScreen() {
     int actualPosOfHistoryText = 0;
 
     int shouldContinueInTheAnotherScreen = 1;
+    
+    float scrollingBack = 0.0f;
+    
     Vector2 mousePos = {0.0f, 0.0f};
     
     gameScreen currentScreen = MENU;
@@ -40,7 +43,6 @@ void menuScreen() {
     Image returnButtonImage = LoadImage("./src/asserts/menu/return.png");
     Image returnButtonImageHover = LoadImage("./src/asserts/menu/return-hover.png");
     Image* obstaculesImages = obstacules_image(3);
-    
     
     ImageResize(&backgroundImage, screenWidth, screenHeight);
     ImageResize(&titleImage, titleImage.width/2.7, titleImage.height/2.9);
@@ -128,7 +130,7 @@ void menuScreen() {
             
             case JOGAR:
                 ClearBackground(RAYWHITE);
-                generateCenario(backgroundInGame);
+                generateCenario(backgroundInGame, &scrollingBack);
                 update_obstacules(obstacles, 3, obstacules2d);
                 DrawTexture(backButton, 10, 600, WHITE);
                 if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
@@ -149,10 +151,6 @@ void menuScreen() {
                     currentScreen = MENU;
                 }
                 
-                if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
-                    DrawTexture(backButtonHover, 10, 600, WHITE);
-                    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = MENU;
-                }
                 break;
             
             case SAIR:

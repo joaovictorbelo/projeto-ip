@@ -71,9 +71,9 @@ Rectangle* return_all_rectangles_of_obstacules(Obstacule* obstacules_obstacules,
 
 Image* obstacules_image(int obstacules_number_of_obstacules) {
     Image* obstacules_image = (Image*) malloc(sizeof(Image) * obstacules_number_of_obstacules);
-    obstacules_image[0] = LoadImage("./src/asserts/obstacules/cabo.png");
-    obstacules_image[1] = LoadImage("src/asserts/obstacules/ciro.png");
-    obstacules_image[2] = LoadImage("src/asserts/obstacules/sat.png");
+    obstacules_image[0] = LoadImage("./src/asserts/obstacules/cabo_mau_novo.png");
+    obstacules_image[1] = LoadImage("src/asserts/obstacules/ciro_novo_novo.png");
+    obstacules_image[2] = LoadImage("src/asserts/obstacules/cabo_novo.png");
 
     return obstacules_image;
 };
