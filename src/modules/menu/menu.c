@@ -16,7 +16,9 @@ void menuScreen() {
 
     const int screenWidth = 1280;
     const int screenHeight = 720;
-    
+    const int numberOfObstacules = 4;
+
+
     int actualPosOfHistoryText = 0;
 
     int shouldContinueInTheAnotherScreen = 1;
@@ -43,7 +45,7 @@ void menuScreen() {
     Image backButtonImageHover = LoadImage("./src/asserts/menu/voltar-hover.png");
     Image returnButtonImage = LoadImage("./src/asserts/menu/return.png");
     Image returnButtonImageHover = LoadImage("./src/asserts/menu/return-hover.png");
-    Image* obstaculesImages = obstacules_image(3);
+    Image* obstaculesImages = obstacules_image(numberOfObstacules);
     Image* itemsImages = items_image(1);
 
 
@@ -79,10 +81,10 @@ void menuScreen() {
     Texture2D* obstacules2d = malloc(sizeof(Texture2D) * 1);
     Texture2D* items2d = malloc(sizeof(Texture2D) * 1);
      
-    obstacules2d = obstacules_texture_2d(3, obstaculesImages);
+    obstacules2d = obstacules_texture_2d(numberOfObstacules, obstaculesImages);
     items2d = items_texture_2d(1, itemsImages);
 
-    Obstacule* obstacles = obstacules_init(3);
+    Obstacule* obstacles = obstacules_init(numberOfObstacules);
     Items* items = itemsInit(1);
     int points = 0;
 
@@ -139,7 +141,7 @@ void menuScreen() {
             case JOGAR:
                 ClearBackground(RAYWHITE);
                 generateCenario(backgroundInGame, &scrollingBack, points);
-                update_obstacules(obstacles, 3, obstacules2d);
+                update_obstacules(obstacles, numberOfObstacules, obstacules2d);
                 update_items(items, 1, items2d);
                 DrawTexture(backButton, 10, 600, WHITE);
                 if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
