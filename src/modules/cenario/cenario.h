@@ -3,6 +3,6 @@
 #include "cenario.c"
 
 
-void generateCenario(Texture2D background, float* scrollingBack);
+void generateCenario(Texture2D background, float* scrollingBack, int points);
 
 #endif

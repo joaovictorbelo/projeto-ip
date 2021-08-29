@@ -4,6 +4,7 @@
 #include "../obstacules/obstacules.h"
 #include "../historia/historia.h"
 #include "../cenario/cenario.h"
+#include "../items/items.h"
 
 typedef enum gameScreen {MENU, JOGAR, HISTORIA, SAIR} gameScreen;
 
@@ -43,7 +44,9 @@ void menuScreen() {
     Image returnButtonImage = LoadImage("./src/asserts/menu/return.png");
     Image returnButtonImageHover = LoadImage("./src/asserts/menu/return-hover.png");
     Image* obstaculesImages = obstacules_image(3);
-    
+    Image* itemsImages = items_image(1);
+
+
     ImageResize(&backgroundImage, screenWidth, screenHeight);
     ImageResize(&titleImage, titleImage.width/2.7, titleImage.height/2.9);
     ImageResize(&playButtonImage, playButtonImage.width/2.7, playButtonImage.height/2.9);
@@ -72,11 +75,16 @@ void menuScreen() {
     Texture2D returnButtonHover = LoadTextureFromImage(returnButtonImageHover);
     
     Texture2D backgroundInGame = LoadTexture("./src/asserts/cenario/backgroundGameplay.png");
-    
-    Texture2D* obstacules2d = malloc(sizeof(Image) * 1);
+
+    Texture2D* obstacules2d = malloc(sizeof(Texture2D) * 1);
+    Texture2D* items2d = malloc(sizeof(Texture2D) * 1);
+     
     obstacules2d = obstacules_texture_2d(3, obstaculesImages);
+    items2d = items_texture_2d(1, itemsImages);
 
     Obstacule* obstacles = obstacules_init(3);
+    Items* items = itemsInit(1);
+    int points = 0;
 
     UnloadImage(backgroundImage);
     UnloadImage(titleImage);
@@ -130,11 +138,13 @@ void menuScreen() {
             
             case JOGAR:
                 ClearBackground(RAYWHITE);
-                generateCenario(backgroundInGame, &scrollingBack);
+                generateCenario(backgroundInGame, &scrollingBack, points);
                 update_obstacules(obstacles, 3, obstacules2d);
+                update_items(items, 1, items2d);
                 DrawTexture(backButton, 10, 600, WHITE);
                 if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
                     DrawTexture(backButtonHover, 10, 600, WHITE);
+                    points++;
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = MENU;
                 }
 
