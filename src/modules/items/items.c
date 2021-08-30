@@ -12,6 +12,7 @@ typedef struct {
     Rectangle rect;
     ObjectiveItems objective;
     int is_active;
+    int is_bosst;
 } Items;
 
 Items* itemsInit(int number_of_max_items) {
@@ -23,14 +24,22 @@ Items* itemsInit(int number_of_max_items) {
         items[i].rect.height = 40;
         items[i].objective.x = -1;
         items[i].objective.y = -1;
-        items[i].is_active = 0;
+        items[i].is_active = 1;
+        if(i == 1) {
+            items[i].is_bosst = 1;
+        }
+        else {
+            items[i].is_bosst = 0;
+        }
     }
     return items;    
 }
 
 void render_items(Items* items_items, int items_number_of_items,  Texture2D* items_texture_2d) {
     for (int i = 0; i < items_number_of_items; i++) {
-        DrawTexture(items_texture_2d[i], items_items[i].rect.x, items_items[i].rect.y, WHITE);
+        if(items_items[i].is_active == 1) {
+            DrawTexture(items_texture_2d[i], items_items[i].rect.x, items_items[i].rect.y, WHITE);
+        }
     }
 }
 
@@ -78,8 +87,7 @@ Rectangle* return_all_rectangles_of_items(Items* items_items, int items_number_o
 Image* items_image(int items_number_of_items) {
     Image* items_image = (Image*) malloc(sizeof(Image) * items_number_of_items);
     items_image[0] = LoadImage("./src/asserts/items/item_versiculo.png");
-    // items_image[1] = LoadImage("src/asserts/items/.png");
-    // items_image[2] = LoadImage("src/asserts/items/.png");
+    items_image[1] = LoadImage("src/asserts/items/item_biblia.png");
 
     return items_image;
 };
@@ -100,11 +108,13 @@ void update_items(Items* items_items, int items_number_of_items, Texture2D* item
             items_items[i] = reset_position_of_the_items(items_items[i], playerX);
         }
         else {
-            items_items[i].is_active = 1;
-            
             if(items_items[i].is_active == 1) {
-                items_items[i].rect.y += rand() % 7;
-                // items_items[i].rect.x -= rand() % 5;
+                if(i != 1) {
+                    items_items[i].rect.y += rand() % 7;
+                }
+                else {
+                    items_items[i].rect.y += (rand() % 15) + 1;
+                }
             }
         }
 
