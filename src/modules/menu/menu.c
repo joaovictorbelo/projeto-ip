@@ -7,8 +7,6 @@
 #include "../cenario/cenario.h"
 #include "../items/items.h"
 #include "../lost/lost.h"
-#include "../comojogar/comojogar.h"
-
 #define NUMBER_OF_OBSTACLES 4
 
 typedef enum gameScreen {MENU, JOGAR,COMOJOGAR, HISTORIA, MORTE ,SAIR} gameScreen;
@@ -25,7 +23,6 @@ void menuScreen() {
     int chooseAfterDeath = -1;
 
     int actualPosOfHistoryText = 0;
-    int actualPosOfGameText = 0;
 
     int shouldContinueInTheAnotherScreen = 1;
     
@@ -52,18 +49,7 @@ void menuScreen() {
     Image returnButtonImage = LoadImage("./src/asserts/menu/return.png");
     Image returnButtonImageHover = LoadImage("./src/asserts/menu/return-hover.png");
     Image LostBackgroundImage = loadImageOfLostScreen(screenWidth, screenHeight);
-    Image caboMauImage = LoadImage("./src/asserts/obstacules/cabo_mau.png");
-    Image ciroNovoImage = LoadImage("./src/asserts/obstacules/ciro_novo.png");
-    Image satMexicoImage = LoadImage("./src/asserts/obstacules/sat_mexico.png");
-    Image satUrssImage = LoadImage("./src/asserts/obstacules/sati_urss.png");
-    Image satImage = LoadImage("./src/asserts/obstacules/sat.png");
-    Image esquerdoImage = LoadImage("./src/asserts/controls/esquerdo.png");
-    Image cimaImage = LoadImage("./src/asserts/controls/cima.png");
-    Image direitoImage = LoadImage("./src/asserts/controls/direito.png");
-    Image bibliaImage = LoadImage("./src/asserts/items/item_biblia.png");
-    Image versiculoImage = LoadImage("./src/asserts/items/item_vesiculo.png");
-    Image gameButtonImage = LoadImage("./src/asserts/menu/comojogar.png"); 
-    Image gameButtonImageHover = LoadImage("./src/asserts/menu/comojogar-hover.png"); 
+    
     Image* obstaculesImages = obstacules_image(NUMBER_OF_OBSTACLES);
     Image* itemsImages = items_image(1);
     
@@ -80,18 +66,6 @@ void menuScreen() {
     ImageResize(&backButtonImageHover, backButtonImageHover.width/2.7, backButtonImageHover.height/2.9);
     ImageResize(&returnButtonImage, returnButtonImage.width/7.7, returnButtonImage.height/7.9);
     ImageResize(&returnButtonImageHover, returnButtonImageHover.width/7.7, returnButtonImageHover.height/7.9);
-    ImageResize(&caboMauImage, caboMauImage.width*1.3, caboMauImage.height*1.3);
-    ImageResize(&ciroNovoImage, ciroNovoImage.width*1.3, ciroNovoImage.height*1.3);
-    ImageResize(&satMexicoImage, satMexicoImage.width*1.3, satMexicoImage.height*1.3);
-    ImageResize(&satUrssImage, satUrssImage.width*1.3, satUrssImage.height*1.3);
-    ImageResize(&satImage, satImage.width*1.3, satImage.height*1.3);
-    ImageResize(&esquerdoImage, esquerdoImage.width/10, esquerdoImage.height/10);
-    ImageResize(&cimaImage, cimaImage.width/10, cimaImage.height/10);
-    ImageResize(&direitoImage, direitoImage.width/10, direitoImage.height/10);
-    ImageResize(&bibliaImage, bibliaImage.width*1.3, bibliaImage.height*1.3);
-    ImageResize(&versiculoImage, versiculoImage.width*1.3, versiculoImage.height*1.3);
-    ImageResize(&gameButtonImage, gameButtonImage.width/2.7, gameButtonImage.height/2.9);
-    ImageResize(&gameButtonImageHover, gameButtonImageHover.width/2.7, gameButtonImageHover.height/2.9);
 
 
     Texture2D background = LoadTextureFromImage(backgroundImage);
@@ -146,18 +120,6 @@ void menuScreen() {
     UnloadImage(returnButtonImage);
     UnloadImage(returnButtonImageHover);
     UnloadImage(LostBackgroundImage);
-    UnloadImage(caboMauImage);
-    UnloadImage(ciroNovoImage);
-    UnloadImage(satMexicoImage);
-    UnloadImage(satUrssImage);
-    UnloadImage(satImage);
-    UnloadImage(esquerdoImage);
-    UnloadImage(cimaImage);
-    UnloadImage(direitoImage);
-    UnloadImage(bibliaImage);
-    UnloadImage(versiculoImage);
-    UnloadImage(gameButtonImage);
-    UnloadImage(gameButtonImageHover);
     unloadALlObstaculesImages(NUMBER_OF_OBSTACLES, obstaculesImages);
     unloadALlItemsImages(1, itemsImages);
     Rectangle playButtonBounds = { screenWidth/2.0 - playButtonImage.width/2.0, 275, playButtonImage.width, playButtonImage.height };
@@ -175,24 +137,18 @@ void menuScreen() {
         ClearBackground(RAYWHITE);
         mousePos = GetMousePosition();
         BeginDrawing();
-
+        
         switch (currentScreen) {
             case MENU:
                 DrawTexture(background, 0.0, 0.0, WHITE);
                 DrawTexture(title, 0.0, 0.0, WHITE);
                 DrawTexture(playButton, (screenWidth / 2.0 - playButtonImage.width / 2.0), 275, WHITE);
-                DrawTexture(gameButton, (screenWidth / 2.0 - gameButtonImage.width / 2.0), 375, WHITE);
-                DrawTexture(storyButton, (screenWidth / 2.0 - storyButtonImage.width / 2.0), 475, WHITE);
-                DrawTexture(exitButton, (screenWidth / 2.0 - exitButtonImage.width / 2.0), 575, WHITE);
+                DrawTexture(storyButton, (screenWidth / 2.0 - storyButtonImage.width / 2.0), 375, WHITE);
+                DrawTexture(exitButton, (screenWidth / 2.0 - exitButtonImage.width / 2.0), 475, WHITE);
 
                 if (CheckCollisionPointRec(mousePos, playButtonBounds)) {
                     DrawTexture(playButtonHover, (screenWidth / 2.0 - playButtonImage.width / 2.0), 275, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = JOGAR;
-                }
-
-                if (CheckCollisionPointRec(mousePos, gameButtonBounds)) {
-                    DrawTexture(gameButtonHover, (screenWidth / 2.0 - gameButtonImage.width / 2.0), 275, WHITE);
-                    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = COMOJOGAR;
                 }
                 
                 if (CheckCollisionPointRec(mousePos, storyButtonBounds)) {
@@ -208,7 +164,7 @@ void menuScreen() {
             
             case JOGAR:
                 ClearBackground(RAYWHITE);
-                generateCenario(backgroundInGame, &scrollingBack, points, obstacles, obstacules2d, items, items2d);
+                generateCenario(backgroundInGame, &scrollingBack, points, obstacles, obstacules2d, items, items2d, player1.playerPosition.x);
                 //update_obstacules(obstacles, numberOfObstacules, obstacules2d);
                 //update_items(items, 1, items2d);
                 DrawTexture(backButton, 10, 600, WHITE);
@@ -218,7 +174,7 @@ void menuScreen() {
                 if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
                     DrawTexture(backButtonHover, 10, 600, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = MENU;
-                    currentScreen = MORTE;
+                    //currentScreen = MORTE;
                 }
 
                               
@@ -280,17 +236,6 @@ void menuScreen() {
     UnloadTexture(backButtonHover);
     UnloadTexture(returnButton);
     UnloadTexture(returnButtonHover);
-    UnloadTexture(caboMau);
-    UnloadTexture(ciroNovo);
-    UnloadTexture(satMexico);
-    UnloadTexture(satUrss);
-    UnloadTexture(sat);
-    UnloadTexture(esquerdo);
-    UnloadTexture(cima);
-    UnloadTexture(direito);
-    UnloadTexture(biblia);
-    UnloadTexture(versiculo);
-
     UnloadFont(font); 
     UnloadTexture(background);
 }
