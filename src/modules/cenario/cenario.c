@@ -3,7 +3,8 @@
 #include "../items/items.h"
 #define NUMBER_OF_OBSTACLES 4
 
-void generateCenario(Texture2D background, float* scrollingBack, int points, Obstacule* obstacules_obstacules, Texture2D* obstacules_texture_2d, Items* items_items, Texture2D* items_texture_2d) { 
+void generateCenario(Texture2D background, float* scrollingBack, int points, Obstacule* obstacules_obstacules, 
+    Texture2D* obstacules_texture_2d, Items* items_items, Texture2D* items_texture_2d, Player player) { 
     
     (*scrollingBack) -= 0.7f;
        
@@ -15,7 +16,7 @@ void generateCenario(Texture2D background, float* scrollingBack, int points, Obs
     DrawTextureEx(background, (Vector2){ background.width*2 + (*scrollingBack), 0 }, 0.0f, 2.0f, WHITE);
     DrawText(TextFormat("Pontuação: %d", points), 1000, 15, 35, YELLOW);
 
-    update_obstacules(obstacules_obstacules, NUMBER_OF_OBSTACLES, obstacules_texture_2d);
+    update_obstacules(obstacules_obstacules, NUMBER_OF_OBSTACLES, obstacules_texture_2d, player);
     update_items(items_items, 1, items_texture_2d);
     
 }

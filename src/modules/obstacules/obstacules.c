@@ -2,28 +2,30 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include <math.h>
+#include "../personagem/personagem.h"
 
 typedef struct {
-    float x;
-    float y;
-} Objective;
+    float vx;
+    float vy;
+} Velocities;
 
 typedef struct {
     Rectangle rect;
-    Objective objective;
+    Velocities velocities;
     int is_active;
+    int should_send_new_velocities;
 } Obstacule;
 
 Obstacule* obstacules_init(int number_of_max_obstacules) {
     Obstacule* obstacules = malloc(sizeof(Obstacule) * number_of_max_obstacules);
     for (int i = 0; i < number_of_max_obstacules; i++) {
-        obstacules[i].rect.x = 900;
-        obstacules[i].rect.y = 10 *(i + 1);
+        obstacules[i].rect.x = rand() % 901;
+        obstacules[i].rect.y = -20;
         obstacules[i].rect.width = 40;
         obstacules[i].rect.height = 40;
-        obstacules[i].objective.x = -1;
-        obstacules[i].objective.y = -1;
         obstacules[i].is_active = 0;
+        obstacules[i].should_send_new_velocities = 1;
     }
     return obstacules;    
 };
@@ -34,28 +36,34 @@ void render_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_o
     }
 };
 
-Objective create_action_obstacule(Rectangle actual_obs, float player_x, float player_y) {
-    Objective action_obstacule;
-    action_obstacule.x = player_x + (rand() % 100) - 50;
-    action_obstacule.y = player_y;
-    return action_obstacule;   
-};
+float* calculate_vel_x_and_vel_y_of_the_obstacule(Obstacule obstacule, float player_x, float player_y) {
+    float* velocities = malloc(sizeof(float) * 2);
+    int vel_module = (rand() % 11) + 1;
+    int direction = 0;
+    float tangent = 0;
+    if (player_x > obstacule.rect.x) {
+        direction = 1;
+    } else {
+        direction = -1;
+    }
 
-float* calculate_vel_x_and_vel_y_of_the_obstacule(Objective action_obstacule, float player_x, float player_y) {
-    float* vel_x_and_vel_y_of_the_obstacule = (float*) malloc(sizeof(float) * 2);
-    float vel_x_and_vel_y_of_the_obstacule_x = action_obstacule.x - player_x;
-    float vel_x_and_vel_y_of_the_obstacule_y = action_obstacule.y - player_y;
-    vel_x_and_vel_y_of_the_obstacule[0] = vel_x_and_vel_y_of_the_obstacule_x;
-    vel_x_and_vel_y_of_the_obstacule[1] = vel_x_and_vel_y_of_the_obstacule_y;
-    return vel_x_and_vel_y_of_the_obstacule;
+    float delta_x = abs(obstacule.rect.x - player_x) + (rand() % 10);
+    float delta_y = abs(obstacule.rect.y - player_y);
+
+    tangent = delta_x / (delta_y + 1);
+    velocities[1] = sqrt((vel_module / tangent));
+    velocities[0] = velocities[1] * tangent * direction;
+
+    return velocities;
+
 };
 
 Obstacule reset_position_of_the_obstacule(Obstacule obstacules) {  
-    obstacules.rect.x = 900;
-    obstacules.rect.y = 20;
-    obstacules.objective.x = -1;
-    obstacules.objective.y = -1;
+    obstacules.rect.x = rand() % 901;
+    obstacules.rect.y = -20;
     obstacules.is_active = 1;
+    obstacules.should_send_new_velocities = 1;
+
     return obstacules;
 };
 
@@ -88,8 +96,11 @@ Texture2D* obstacules_texture_2d(int obstacules_number_of_obstacules, Image* obs
     return obstacules_texture_2d;
 };
 
-void update_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_of_obstacules, Texture2D* obstacules_texture_2d) {
-    int r = 0;
+void update_obstacules(Obstacule* obstacules_obstacules, 
+                        int obstacules_number_of_obstacules, 
+                        Texture2D* obstacules_texture_2d, 
+                        Player player) {
+    float* velocies_aux = NULL;
     for (int i = 0; i < obstacules_number_of_obstacules; i++) {
 
         if(obstacules_obstacules[i].rect.y > 700) { 
@@ -97,11 +108,23 @@ void update_obstacules(Obstacule* obstacules_obstacules, int obstacules_number_o
         }
         else {
             obstacules_obstacules[i].is_active = 1;
-            
-            if(obstacules_obstacules[i].is_active == 1) {
-                obstacules_obstacules[i].rect.y += rand() % 5;
-                obstacules_obstacules[i].rect.x -= rand() % 5;
+            if(obstacules_obstacules[i].should_send_new_velocities == 1) {
+                obstacules_obstacules[i].should_send_new_velocities = 0;
+
+                velocies_aux = calculate_vel_x_and_vel_y_of_the_obstacule(obstacules_obstacules[i], 
+                                                            player.playerPosition.x, 
+                                                            player.playerPosition.y); 
+                obstacules_obstacules[i].velocities.vx = velocies_aux[0];
+                obstacules_obstacules[i].velocities.vy = velocies_aux[1];
+                if(i == 0) {
+                    printf("%f %f\n", obstacules_obstacules[i].velocities.vx, obstacules_obstacules[i].velocities.vy);
+                }
+                free(velocies_aux);
             }
+            
+            obstacules_obstacules[i].rect.x += obstacules_obstacules[i].velocities.vx;
+            obstacules_obstacules[i].rect.y += obstacules_obstacules[i].velocities.vy;
+
         }
 
     }
