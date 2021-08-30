@@ -11,7 +11,7 @@
 
 #define NUMBER_OF_OBSTACLES 4
 
-typedef enum gameScreen {MENU, JOGAR, HISTORIA, MORTE ,SAIR} gameScreen;
+typedef enum gameScreen {MENU, JOGAR,COMOJOGAR, HISTORIA, MORTE ,SAIR} gameScreen;
 
 void menuScreen() {
     /* 
@@ -117,8 +117,8 @@ void menuScreen() {
     Texture2D direito = LoadTextureFromImage(direitoImage);
     Texture2D biblia = LoadTextureFromImage(bibliaImage);
     Texture2D versiculo = LoadTextureFromImage(versiculoImage);
-    Texture2D versiculo = LoadTextureFromImage(gameButtonImage);
-    Texture2D versiculo = LoadTextureFromImage(gameButtonImageHover);
+    Texture2D gameButton = LoadTextureFromImage(gameButtonImage);
+    Texture2D gameButtonHover = LoadTextureFromImage(gameButtonImageHover);
 
     Texture2D backgroundInGame = LoadTexture("./src/asserts/cenario/backgroundGameplay.png");
 
@@ -161,9 +161,9 @@ void menuScreen() {
     unloadALlObstaculesImages(NUMBER_OF_OBSTACLES, obstaculesImages);
     unloadALlItemsImages(1, itemsImages);
     Rectangle playButtonBounds = { screenWidth/2.0 - playButtonImage.width/2.0, 275, playButtonImage.width, playButtonImage.height };
-    Rectangle storyButtonBounds = { screenWidth/2.0 - storyButtonImage.width/2.0, 375, storyButtonImage.width, storyButtonImage.height };
-    Rectangle exitButtonBounds = { screenWidth/2.0 - exitButtonImage.width/2.0, 475, exitButtonImage.width, exitButtonImage.height };
-    Rectangle gameButtonBounds = { screenWidth/2.0 - gameButtonImage.width/2.0, 475, gameButtonImage.width, gameButtonImage.height };
+    Rectangle gameButtonBounds = { screenWidth/2.0 - gameButtonImage.width/2.0, 375, gameButtonImage.width, gameButtonImage.height };
+    Rectangle storyButtonBounds = { screenWidth/2.0 - storyButtonImage.width/2.0, 475, storyButtonImage.width, storyButtonImage.height };
+    Rectangle exitButtonBounds = { screenWidth/2.0 - exitButtonImage.width/2.0, 575, exitButtonImage.width, exitButtonImage.height };
     Rectangle backButtonBounds = { 10, 600, backButtonImage.width, backButtonImage.height };
     
 
@@ -227,7 +227,7 @@ void menuScreen() {
             case COMOJOGAR:
                 ClearBackground(RAYWHITE);
 
-                actualPosOfGameText = historiaScreen(background, font, returnButton, returnButtonHover,caboMau,ciroNovo,
+                actualPosOfGameText = comoJogarScreen(background, font, returnButton, returnButtonHover,caboMau,ciroNovo,
                 satMexico,satUrss,sat,esquerdo,cima,direito,biblia, versiculo, 
                 actualPosOfGameText);
                 
