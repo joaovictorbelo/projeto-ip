@@ -3,9 +3,8 @@
 #include "raylib.h"
 #include <unistd.h>
 #include "../menu/menu.h"
-int comoJogarScreen (Texture2D background, Font font, Texture2D returnButton, Texture2D returnButtonHover, Texture2D caboMau,
-Texture2D ciroNovo,Texture2D satMexico,Texture2D satUrss,Texture2D sat,Texture2D esquerdo,Texture2D cima,Texture2D direito,
-Texture2D biblia,Texture2D versiculo, 
+int comoJogarScreen (Texture2D background, Font font, Texture2D returnButton, Texture2D returnButtonHover,Texture2D* texturesObstacules,
+Texture2D esquerdo,Texture2D cima,Texture2D direito,Texture2D biblia,Texture2D versiculo, 
 int framesCounter){
 
 
@@ -41,11 +40,10 @@ int framesCounter){
     DrawTextEx(font, "O jogo possui os movimentos de andar para FRENTE, para TRAS e PULAR. ",fontPositionLegenda1, 20, 0, WHITE); 
 
     DrawTextEx(font, "Evite os seguintes obstaculos:  ",fontPosition2, 25, 0, WHITE); 
-    DrawTexture(caboMau, 50, 350, WHITE);
-    DrawTexture(ciroNovo, 150, 350, WHITE);
-    DrawTexture(satMexico, 220, 350, WHITE);
-    DrawTexture(satUrss, 310, 350, WHITE);
-    DrawTexture(sat, 390, 350, WHITE);
+    DrawTexture(texturesObstacules[0], 50, 350, WHITE);
+    DrawTexture(texturesObstacules[1], 150, 350, WHITE);
+    DrawTexture(texturesObstacules[2], 220, 350, WHITE);
+    DrawTexture(texturesObstacules[3], 310, 350, WHITE);
     DrawTextEx(font, "O jogo possui como obstaculos que fazem o jogador PERDER, os seguintes itens : CABO DACIOLO COMUNISTA,\nCIRO GOMES, SATELITE MEXICANO, SATELITE COMUNISTA e SATELITE. ",fontPositionLegenda2, 20, 0, WHITE); 
 
     DrawTextEx(font, "Esses itens dao bonus:  ",fontPosition3, 25, 0, WHITE); 
