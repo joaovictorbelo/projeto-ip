@@ -76,7 +76,7 @@ void menuScreen() {
     Image bibliaImage = LoadImage("./src/asserts/items/item_biblia.png");
     Image versiculoImage = LoadImage("./src/asserts/items/item_versiculo.png");
     Image LostBackgroundImage = loadImageOfLostScreen(screenWidth, screenHeight);
-    Image victoryBackgroundImage = LoadImage("./src/asserts/victory/lost_screen.png");;
+    Image victoryBackgroundImage = LoadImage("./src/asserts/victory/tela_vitoria.png");;
     
     Image* obstaculesImages = obstacules_image(NUMBER_OF_OBSTACLES);
     Image* itemsImages = items_image(1);
