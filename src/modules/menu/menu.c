@@ -8,9 +8,11 @@
 #include "../items/items.h"
 #include "../lost/lost.h"
 #include "../comojogar/comojogar.h"
+#include "../victory/victory.h"
 #define NUMBER_OF_OBSTACLES 4
 
-typedef enum gameScreen {MENU, JOGAR,COMOJOGAR, HISTORIA, MORTE ,SAIR} gameScreen;
+
+typedef enum gameScreen {MENU, JOGAR,COMOJOGAR, HISTORIA, MORTE, SAIR, VICTORY} gameScreen;
 
 int checkPoints(Rectangle player, Rectangle item, int *points) {
     if (CheckCollisionRecs(player, item)) {
@@ -26,10 +28,12 @@ void menuScreen() {
         2.7 -> Escala utilizada para reduzir a largura.
         2.9 -> Escala utilizada para reduzir a altura.
     */
+   
 
     const int screenWidth = 1280;
     const int screenHeight = 720;
     
+    int choosePlayAgain = -1;
     int chooseAfterDeath = -1;
     int shouldBackToMenu = 0;
 
@@ -72,12 +76,14 @@ void menuScreen() {
     Image bibliaImage = LoadImage("./src/asserts/items/item_biblia.png");
     Image versiculoImage = LoadImage("./src/asserts/items/item_versiculo.png");
     Image LostBackgroundImage = loadImageOfLostScreen(screenWidth, screenHeight);
+    Image victoryBackgroundImage = LoadImage("./src/asserts/victory/lost_screen.png");;
     
     Image* obstaculesImages = obstacules_image(NUMBER_OF_OBSTACLES);
     Image* itemsImages = items_image(1);
     
 
     ImageResize(&backgroundImage, screenWidth, screenHeight);
+    ImageResize(&victoryBackgroundImage, screenWidth, screenHeight);
     ImageResize(&titleImage, titleImage.width/2.7, titleImage.height/2.9);
     ImageResize(&playButtonImage, playButtonImage.width/2.7, playButtonImage.height/2.9);
     ImageResize(&storyButtonImage, storyButtonImage.width/2.7, storyButtonImage.height/2.9);
@@ -119,6 +125,7 @@ void menuScreen() {
     Texture2D versiculo = LoadTextureFromImage(versiculoImage);
     Texture2D gameButton = LoadTextureFromImage(gameButtonImage);
     Texture2D gameButtonHover = LoadTextureFromImage(gameButtonImageHover);
+    Texture2D backgroundInVictoryScreen = LoadTextureFromImage(victoryBackgroundImage);
 
 
     Texture2D backgroundInGame = LoadTexture("./src/asserts/cenario/backgroundGameplay.png");
@@ -241,6 +248,9 @@ void menuScreen() {
                 //--------------------------------------------------------
 
                               
+                if (points >= 200) {
+                    currentScreen = VICTORY;
+                }          
                 break;
 
             case COMOJOGAR:
@@ -274,6 +284,21 @@ void menuScreen() {
                 else if(chooseAfterDeath == 1) {
                     currentScreen = JOGAR;
                 }
+
+                break;
+
+            case VICTORY:
+                ClearBackground(RAYWHITE);
+                
+                choosePlayAgain = drawVictoryScreen(backgroundInVictoryScreen, font);
+                points = 0;
+
+                player1 = initPlayer(screenWidth, screenHeight);
+                obstacles = obstacules_init(NUMBER_OF_OBSTACLES);
+                items = itemsInit(1);
+
+                if(choosePlayAgain == 1) currentScreen = JOGAR;
+                else if(choosePlayAgain == 0) currentScreen = MENU;
 
                 break;
 
