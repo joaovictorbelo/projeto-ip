@@ -31,6 +31,7 @@ void menuScreen() {
     const int screenHeight = 720;
     
     int chooseAfterDeath = -1;
+    int shouldBackToMenu = 0;
 
     int actualPosOfHistoryText = 0;
     int actualPosOfGameText = 0;
@@ -174,7 +175,7 @@ void menuScreen() {
 
     while (!WindowShouldClose() && currentScreen != SAIR) { 
         ClearBackground(RAYWHITE);
-        UpdateMusicStream(backgroundSong);
+        
         mousePos = GetMousePosition();
         BeginDrawing();
         
@@ -212,6 +213,7 @@ void menuScreen() {
             
             case JOGAR:
                 ClearBackground(RAYWHITE);
+                UpdateMusicStream(backgroundSong);
                 generateCenario(backgroundInGame, &scrollingBack, points, obstacles, obstacules2d, items, items2d, player1);
                 //update_obstacules(obstacles, numberOfObstacules, obstacules2d);
                 //update_items(items, 1, items2d);
@@ -236,10 +238,9 @@ void menuScreen() {
             case COMOJOGAR:
                 ClearBackground(RAYWHITE);
 
-                actualPosOfGameText = comoJogarScreen(background, font, returnButton, returnButtonHover,obstacules2d,esquerdo,cima,direito,biblia, versiculo, 
-                actualPosOfGameText);
+                shouldBackToMenu = comoJogarScreen(background, font, returnButton, returnButtonHover,obstacules2d,esquerdo,cima,direito,biblia, versiculo);
                 
-                if(actualPosOfGameText == -1) {
+                if(shouldBackToMenu == 1) {
                     currentScreen = MENU;
                 }
                 
@@ -251,7 +252,7 @@ void menuScreen() {
                 actualPosOfHistoryText = historiaScreen(background, font, returnButton, returnButtonHover, 
                 actualPosOfHistoryText);
                 
-                if(actualPosOfHistoryText == -1) {
+                if(actualPosOfHistoryText == 1) {
                     currentScreen = MENU;
                 }
                 

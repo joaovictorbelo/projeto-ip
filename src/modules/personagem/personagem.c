@@ -91,7 +91,7 @@ void updatePlayer(Player *player, int screenWidth, int screenHeight, float gravi
         (*player).playerHitbox.y = (*player).playerPosition.y;
 
         if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) {
-            renderPlayerWalking(*player, frameCounter);
+            renderPlayerWalking(*player, frameCounter, cabo1, cabo2, cabo3);
         } else {
             renderPlayerStanding(*player, cabo1);
         }
