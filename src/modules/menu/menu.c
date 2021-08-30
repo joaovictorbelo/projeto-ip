@@ -8,11 +8,12 @@
 #include "../items/items.h"
 #include "../lost/lost.h"
 #include "../comojogar/comojogar.h"
+#include "../continua/continua.h"
 #include "../victory/victory.h"
 #define NUMBER_OF_OBSTACLES 4
 #define NUMBER_OF_ITEMS 2
 
-typedef enum gameScreen {MENU, JOGAR,COMOJOGAR, HISTORIA, MORTE, SAIR, VICTORY} gameScreen;
+typedef enum gameScreen {MENU, JOGAR,COMOJOGAR, HISTORIA, MORTE, SAIR, VICTORY,CONTINUE} gameScreen;
 
 int checkPoints(Rectangle player, Rectangle item, int *points) {
     if (CheckCollisionRecs(player, item)) {
@@ -75,6 +76,8 @@ void menuScreen() {
     Image direitoImage = LoadImage("./src/asserts/controls/direito.png");
     Image bibliaImage = LoadImage("./src/asserts/items/item_biblia.png");
     Image versiculoImage = LoadImage("./src/asserts/items/item_versiculo.png");
+    Image parte2Image = LoadImage("./src/asserts/menu/nome2.png");
+
     Image LostBackgroundImage = loadImageOfLostScreen(screenWidth, screenHeight);
     Image victoryBackgroundImage = LoadImage("./src/asserts/victory/tela_vitoria.png");;
     
@@ -102,6 +105,8 @@ void menuScreen() {
     ImageResize(&versiculoImage, versiculoImage.width*1.3, versiculoImage.height*1.3);
     ImageResize(&gameButtonImage, gameButtonImage.width/2.7, gameButtonImage.height/2.9);
     ImageResize(&gameButtonImageHover, gameButtonImageHover.width/2.7, gameButtonImageHover.height/2.9);
+    ImageResize(&parte2Image, parte2Image.width/1.7, parte2Image.height/1.7);
+
 
 
 
@@ -126,6 +131,8 @@ void menuScreen() {
     Texture2D gameButton = LoadTextureFromImage(gameButtonImage);
     Texture2D gameButtonHover = LoadTextureFromImage(gameButtonImageHover);
     Texture2D backgroundInVictoryScreen = LoadTextureFromImage(victoryBackgroundImage);
+    Texture2D parte2 = LoadTextureFromImage(parte2Image);
+
 
 
     Texture2D backgroundInGame = LoadTexture("./src/asserts/cenario/backgroundGameplay.png");
@@ -166,6 +173,8 @@ void menuScreen() {
     UnloadImage(versiculoImage);
     UnloadImage(gameButtonImage);
     UnloadImage(gameButtonImageHover);
+    UnloadImage(parte2Image);
+
     unloadALlObstaculesImages(NUMBER_OF_OBSTACLES, obstaculesImages);
     unloadALlItemsImages(1, itemsImages);
 
@@ -248,7 +257,7 @@ void menuScreen() {
                 //--------------------------------------------------------
 
                               
-                if (points >= 200) {
+                if (points >= 10) {
                     currentScreen = VICTORY;
                 }          
                 break;
@@ -297,8 +306,16 @@ void menuScreen() {
                 obstacles = obstacules_init(NUMBER_OF_OBSTACLES);
                 items = itemsInit(1);
 
-                if(choosePlayAgain == 1) currentScreen = JOGAR;
+                if(choosePlayAgain == 1) currentScreen = CONTINUE;
                 else if(choosePlayAgain == 0) currentScreen = MENU;
+
+                break;
+            
+            case CONTINUE:
+
+                choosePlayAgain=continuaScreen(background,font, parte2);
+                if(choosePlayAgain == 1) currentScreen=JOGAR;
+                if(choosePlayAgain == 0) currentScreen=MENU;
 
                 break;
 
@@ -327,4 +344,5 @@ void menuScreen() {
     UnloadFont(font); 
     UnloadTexture(background);
     UnloadSound(fxWav);
+    UnloadTexture(parte2);
 }
