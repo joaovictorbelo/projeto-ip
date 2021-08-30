@@ -26,17 +26,22 @@ Player initPlayer(int screenWidth, int screenHeight){
     return player;
 }
 
-void renderPlayerWalking(Player player, int *frameCounter, Texture2D cabo1, Texture2D cabo2, Texture2D cabo3) {
-
+void renderPlayerWalking(Player player, int *frameCounter, Texture2D cabo1, Texture2D cabo2, Texture2D cabo3, int boost) {
+    float scale;
+    if (boost) {
+        scale = 2.0;
+    } else {
+        scale = 1.0;
+    }
 
     if ((*frameCounter) >= 0 && (*frameCounter) <= 15) {
-        DrawTextureEx(cabo2, (Vector2)player.playerPosition,0.0f, 1.0f, WHITE);
+        DrawTextureEx(cabo2, (Vector2)player.playerPosition,0.0f, scale, WHITE);
     } else if ((*frameCounter) > 15 && (*frameCounter) <= 30) {
-        DrawTextureEx(cabo1, (Vector2)player.playerPosition,0.0f, 1.0f, WHITE);
+        DrawTextureEx(cabo1, (Vector2)player.playerPosition,0.0f, scale, WHITE);
     } else if ((*frameCounter) > 30 && (*frameCounter) <= 45) {
-        DrawTextureEx(cabo3, (Vector2)player.playerPosition,0.0f, 1.0f, WHITE);
+        DrawTextureEx(cabo3, (Vector2)player.playerPosition,0.0f, scale, WHITE);
     } else if ((*frameCounter) > 45 && (*frameCounter) <= 60) {
-        DrawTextureEx(cabo1, (Vector2)player.playerPosition,0.0f, 1.0f, WHITE);
+        DrawTextureEx(cabo1, (Vector2)player.playerPosition,0.0f, scale, WHITE);
     }
     
     if ((*frameCounter) == 60) {
@@ -46,13 +51,19 @@ void renderPlayerWalking(Player player, int *frameCounter, Texture2D cabo1, Text
     (*frameCounter)++;
 }
 
-void renderPlayerStanding(Player player, Texture2D cabo1) {
+void renderPlayerStanding(Player player, Texture2D cabo1, int boost) {
+    float scale;
+    if (boost) {
+        scale = 2.0;
+    } else {
+        scale = 1.0;
+    }
     
-    DrawTextureEx(cabo1, (Vector2)player.playerPosition,0.0f, 1.0f, WHITE);
+    DrawTextureEx(cabo1, (Vector2)player.playerPosition,0.0f, scale, WHITE);
 }
 
 void updatePlayer(Player *player, int screenWidth, int screenHeight, float gravity, 
-                    int *frameCounter, Texture2D cabo1, Texture2D cabo2, Texture2D cabo3) {
+                    int *frameCounter, Texture2D cabo1, Texture2D cabo2, Texture2D cabo3, int boost) {
 
     int playerSpeed;
 
@@ -91,8 +102,37 @@ void updatePlayer(Player *player, int screenWidth, int screenHeight, float gravi
         (*player).playerHitbox.y = (*player).playerPosition.y;
 
         if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) {
-            renderPlayerWalking(*player, frameCounter, cabo1, cabo2, cabo3);
+            renderPlayerWalking(*player, frameCounter, cabo1, cabo2, cabo3, boost);
         } else {
-            renderPlayerStanding(*player, cabo1);
+            renderPlayerStanding(*player, cabo1, boost);
         }
 }
+
+int boostTimer(int *frames, int *boost) {
+    float barSize = GetScreenWidth()/3;
+    (*frames)++;
+    DrawRectangle(barSize, 10, barSize, 20, WHITE);
+    DrawRectangle(barSize, 10, barSize - barSize*((float)(*frames)/600), 20, RED);
+    if ((*frames) == 600) {
+        (*boost) = 0;
+        (*frames) = 0;
+        return 1;
+    }
+    return 0;
+}
+
+void checkBoost(Player *player, Rectangle boostRec, int *boost, int *frameCounter){
+    if(CheckCollisionRecs((*player).playerHitbox, boostRec)){
+        (*boost) = 1;
+        (*player).playerSize = (Vector2){60, 170};
+        (*player).playerPosition.y -= 85;
+    }
+    
+    if (*boost) {
+        if(boostTimer(frameCounter, boost)) {
+            (*player).playerSize = (Vector2){30, 85};
+            (*player).playerPosition.y += 85;
+        };
+    }
+}
+
