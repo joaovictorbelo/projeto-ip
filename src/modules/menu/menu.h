@@ -1,6 +1,7 @@
-// #ifndef MENU_H
-// #define MENU_H
+#ifndef MENU_H
+#define MENU_H
+#include "menu.c"
 
-// void menuScreen();
+void menuScreen();
 
-// // #endif
+#endif
