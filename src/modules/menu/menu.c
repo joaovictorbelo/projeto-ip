@@ -8,9 +8,11 @@
 #include "../items/items.h"
 #include "../lost/lost.h"
 #include "../comojogar/comojogar.h"
+#include "../victory/victory.h"
 #define NUMBER_OF_OBSTACLES 4
 
-typedef enum gameScreen {MENU, JOGAR,COMOJOGAR, HISTORIA, MORTE ,SAIR} gameScreen;
+
+typedef enum gameScreen {MENU, JOGAR,COMOJOGAR, HISTORIA, MORTE, SAIR, VICTORY} gameScreen;
 
 int checkPoints(Rectangle player, Rectangle item, int *points) {
     if (CheckCollisionRecs(player, item)) {
@@ -21,22 +23,17 @@ int checkPoints(Rectangle player, Rectangle item, int *points) {
     return 0;
 }
 
-int checkMorte(Rectangle player, Rectangle obstacules) {
-    if (CheckCollisionRecs(player, obstacules)) {
-        return 1;
-    }
-    return 0;
-}
-
 void menuScreen() {
     /* 
         2.7 -> Escala utilizada para reduzir a largura.
         2.9 -> Escala utilizada para reduzir a altura.
     */
+   
 
     const int screenWidth = 1280;
     const int screenHeight = 720;
     
+    int choosePlayAgain = -1;
     int chooseAfterDeath = -1;
     int shouldBackToMenu = 0;
 
@@ -57,7 +54,6 @@ void menuScreen() {
     InitAudioDevice();
 
     Sound fxWav = LoadSound("./src/asserts/sounds/gloria_a_deux.wav");
-    Sound urss = LoadSound("./src/asserts/sounds/URSS.mp3");
     Music backgroundSong = LoadMusicStream("./src/asserts/sounds/ameno8bit.mp3");
 
     Image backgroundImage = LoadImage("./src/asserts/menu/fundo.png");
@@ -80,12 +76,14 @@ void menuScreen() {
     Image bibliaImage = LoadImage("./src/asserts/items/item_biblia.png");
     Image versiculoImage = LoadImage("./src/asserts/items/item_versiculo.png");
     Image LostBackgroundImage = loadImageOfLostScreen(screenWidth, screenHeight);
+    Image victoryBackgroundImage = LoadImage("./src/asserts/victory/lost_screen.png");;
     
     Image* obstaculesImages = obstacules_image(NUMBER_OF_OBSTACLES);
     Image* itemsImages = items_image(1);
     
 
     ImageResize(&backgroundImage, screenWidth, screenHeight);
+    ImageResize(&victoryBackgroundImage, screenWidth, screenHeight);
     ImageResize(&titleImage, titleImage.width/2.7, titleImage.height/2.9);
     ImageResize(&playButtonImage, playButtonImage.width/2.7, playButtonImage.height/2.9);
     ImageResize(&storyButtonImage, storyButtonImage.width/2.7, storyButtonImage.height/2.9);
@@ -127,6 +125,7 @@ void menuScreen() {
     Texture2D versiculo = LoadTextureFromImage(versiculoImage);
     Texture2D gameButton = LoadTextureFromImage(gameButtonImage);
     Texture2D gameButtonHover = LoadTextureFromImage(gameButtonImageHover);
+    Texture2D backgroundInVictoryScreen = LoadTextureFromImage(victoryBackgroundImage);
 
 
     Texture2D backgroundInGame = LoadTexture("./src/asserts/cenario/backgroundGameplay.png");
@@ -232,17 +231,7 @@ void menuScreen() {
                 if (checkPoints(player1.playerHitbox, items[0].rect, &points)) {
                     items[0] = reset_position_of_the_items(items[0], player1.playerPosition.x);
                     PlaySound(fxWav);
-                }; 
-
-                if ((checkMorte(player1.playerHitbox, obstacles[0].rect)) ||(checkMorte(player1.playerHitbox, obstacles[1].rect)) || (checkMorte(player1.playerHitbox, obstacles[2].rect)) ||(checkMorte(player1.playerHitbox, obstacles[3].rect)))    {
-                    for(int i=0;i<3;i++){
-                        obstacles[i] = reset_position_of_the_obstacule(obstacles[i]);
-
-                    }
-                    player1=initPlayer(screenWidth, screenHeight);
-                    currentScreen = MORTE;
                 };
-
 
                 if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
                     DrawTexture(backButtonHover, 10, 600, WHITE);
@@ -250,7 +239,9 @@ void menuScreen() {
                     //currentScreen = MORTE;
                 }
 
-                              
+                if (points >= 10) {
+                    currentScreen = VICTORY;
+                }          
                 break;
 
             case COMOJOGAR:
@@ -281,9 +272,24 @@ void menuScreen() {
                 if(chooseAfterDeath == 0) {
                     currentScreen = MENU;
                 }
-                if(chooseAfterDeath == 1) {
+                else if(chooseAfterDeath == 1) {
                     currentScreen = JOGAR;
                 }
+
+                break;
+
+            case VICTORY:
+                ClearBackground(RAYWHITE);
+                
+                choosePlayAgain = drawVictoryScreen(backgroundInVictoryScreen, font);
+                points = 0;
+
+                player1 = initPlayer(screenWidth, screenHeight);
+                obstacles = obstacules_init(NUMBER_OF_OBSTACLES);
+                items = itemsInit(1);
+
+                if(choosePlayAgain == 1) currentScreen = JOGAR;
+                else if(choosePlayAgain == 0) currentScreen = MENU;
 
                 break;
 
@@ -312,5 +318,4 @@ void menuScreen() {
     UnloadFont(font); 
     UnloadTexture(background);
     UnloadSound(fxWav);
-    UnloadSound(urss);
 }
