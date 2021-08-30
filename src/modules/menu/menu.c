@@ -48,6 +48,11 @@ void menuScreen() {
     Image backButtonImageHover = LoadImage("./src/asserts/menu/voltar-hover.png");
     Image returnButtonImage = LoadImage("./src/asserts/menu/return.png");
     Image returnButtonImageHover = LoadImage("./src/asserts/menu/return-hover.png");
+    Image esquerdoImage = LoadImage("./src/asserts/controls/esquerdo.png");
+    Image cimaImage = LoadImage("./src/asserts/controls/cima.png");
+    Image direitoImage = LoadImage("./src/asserts/controls/direito.png");
+    Image bibliaImage = LoadImage("./src/asserts/items/item_biblia.png");
+    Image versiculoImage = LoadImage("./src/asserts/items/item_versiculo.png");
     Image LostBackgroundImage = loadImageOfLostScreen(screenWidth, screenHeight);
     
     Image* obstaculesImages = obstacules_image(NUMBER_OF_OBSTACLES);
@@ -66,6 +71,12 @@ void menuScreen() {
     ImageResize(&backButtonImageHover, backButtonImageHover.width/2.7, backButtonImageHover.height/2.9);
     ImageResize(&returnButtonImage, returnButtonImage.width/7.7, returnButtonImage.height/7.9);
     ImageResize(&returnButtonImageHover, returnButtonImageHover.width/7.7, returnButtonImageHover.height/7.9);
+    ImageResize(&esquerdoImage, esquerdoImage.width/10, esquerdoImage.height/10);
+    ImageResize(&cimaImage, cimaImage.width/10, cimaImage.height/10);
+    ImageResize(&direitoImage, direitoImage.width/10, direitoImage.height/10);
+    ImageResize(&bibliaImage, bibliaImage.width*1.3, bibliaImage.height*1.3);
+    ImageResize(&versiculoImage, versiculoImage.width*1.3, versiculoImage.height*1.3);
+
 
 
     Texture2D background = LoadTextureFromImage(backgroundImage);
@@ -81,11 +92,6 @@ void menuScreen() {
     Texture2D returnButton = LoadTextureFromImage(returnButtonImage);
     Texture2D returnButtonHover = LoadTextureFromImage(returnButtonImageHover);
     Texture2D backgroundInLostScreen = LoadTextureFromImage(LostBackgroundImage);
-    Texture2D caboMau = LoadTextureFromImage(caboMauImage);
-    Texture2D ciroNovo = LoadTextureFromImage(ciroNovoImage);
-    Texture2D satMexico = LoadTextureFromImage(satMexicoImage);
-    Texture2D satUrss = LoadTextureFromImage(satUrssImage);
-    Texture2D sat = LoadTextureFromImage(satImage);
     Texture2D esquerdo = LoadTextureFromImage(esquerdoImage);
     Texture2D cima = LoadTextureFromImage(cimaImage);
     Texture2D direito = LoadTextureFromImage(direitoImage);
@@ -93,6 +99,7 @@ void menuScreen() {
     Texture2D versiculo = LoadTextureFromImage(versiculoImage);
     Texture2D gameButton = LoadTextureFromImage(gameButtonImage);
     Texture2D gameButtonHover = LoadTextureFromImage(gameButtonImageHover);
+
 
     Texture2D backgroundInGame = LoadTexture("./src/asserts/cenario/backgroundGameplay.png");
 
@@ -120,6 +127,11 @@ void menuScreen() {
     UnloadImage(returnButtonImage);
     UnloadImage(returnButtonImageHover);
     UnloadImage(LostBackgroundImage);
+    UnloadImage(esquerdoImage);
+    UnloadImage(cimaImage);
+    UnloadImage(direitoImage);
+    UnloadImage(bibliaImage);
+    UnloadImage(versiculoImage);
     unloadALlObstaculesImages(NUMBER_OF_OBSTACLES, obstaculesImages);
     unloadALlItemsImages(1, itemsImages);
     Rectangle playButtonBounds = { screenWidth/2.0 - playButtonImage.width/2.0, 275, playButtonImage.width, playButtonImage.height };
