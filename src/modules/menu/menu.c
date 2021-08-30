@@ -60,7 +60,8 @@ void menuScreen() {
     float scrollingBack = 0.0f;
     
     Vector2 mousePos = {0.0f, 0.0f};
-    
+    Vector2 ContinueTextPosition = {.x = (50), .y = (700)};
+
     Rectangle recBoost = {0.0f, 0.0f, 0.0f, 0.0f};
     Rectangle* recObstacules = NULL;
 
@@ -281,7 +282,7 @@ void menuScreen() {
                     }
                 };
                               
-                if (points >= 200) {
+                if (points >= 0) {
                     currentScreen = VICTORY;
                 }          
                 break;
@@ -339,10 +340,10 @@ void menuScreen() {
                 break;
             
             case CONTINUE:
-
-                choosePlayAgain=continuaScreen(background,font, parte2);
+                choosePlayAgain = 0;
+                ContinueTextPosition = continuaScreen(background,font, parte2, &choosePlayAgain, ContinueTextPosition);
                 if(choosePlayAgain == 1) currentScreen=JOGAR;
-                if(choosePlayAgain == 0) currentScreen=MENU;
+                if(choosePlayAgain == 2) currentScreen=MENU;
 
                 break;
 
@@ -372,4 +373,6 @@ void menuScreen() {
     UnloadTexture(background);
     UnloadSound(fxWav);
     UnloadTexture(parte2);
+    unloadALlObstaculesImages(NUMBER_OF_OBSTACLES, obstacules_image(NUMBER_OF_OBSTACLES));
+    unloadALlItemsImages(NUMBER_OF_ITEMS, items_image(NUMBER_OF_ITEMS));
 }

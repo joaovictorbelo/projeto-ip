@@ -1,4 +1,4 @@
-//Parte de implementação do texto de historia do menu
+//Tela da historia, contextualizando o cenario do jogo
 
 #include "raylib.h"
 #include <unistd.h>

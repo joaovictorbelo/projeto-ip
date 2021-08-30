@@ -1,3 +1,5 @@
+//Funcoes referentes ao personagem do jogo (inicializacao, carregamento das texturas, renderizacao, movimentacao etc)
+
 #include "raylib.h"
 #include <stdlib.h>
 

@@ -1,3 +1,5 @@
+//Tela de morte, retornando a opcao de jogar de novo ou nao
+
 #include "raylib.h"
 
 Image loadImageOfLostScreen(int screenWidth, int screenHeight) {

@@ -1,3 +1,5 @@
+//Tela de vitoria do jogo, retornando a opcao de continuar jogando ou nao
+
 #include "raylib.h"
 
 //Image loadImageVictoryScreen(int screenWidth, int screenHeight) {

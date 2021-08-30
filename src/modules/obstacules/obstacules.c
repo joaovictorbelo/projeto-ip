@@ -1,3 +1,5 @@
+//Funcoes referentes aos obstaculos do jogo (inicializacao, carregamento das texturas, renderizacao etc)
+
 #include "raylib.h"
 #include <stdlib.h>
 #include <time.h>

@@ -1,4 +1,4 @@
-//Parte de implementação do texto de historia do menu
+//Tela de "tutorial", mostrando os comandos do jogo e o efeito de cada item/obstaculo
 
 #include "raylib.h"
 #include <unistd.h>

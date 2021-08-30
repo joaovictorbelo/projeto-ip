@@ -2,6 +2,6 @@
 #define CONTINUA_H
 #include "continua.c"
 
-int continuaScreen();
+Vector2 continuaScreen();
 
 #endif
