@@ -17,6 +17,6 @@ void generateCenario(Texture2D background, float* scrollingBack, int points, Obs
     DrawText(TextFormat("Pontuação: %d", points), 1000, 15, 35, YELLOW);
 
     update_obstacules(obstacules_obstacules, NUMBER_OF_OBSTACLES, obstacules_texture_2d, player);
-    update_items(items_items, 1, items_texture_2d);
+    update_items(items_items, 1, items_texture_2d, player.playerPosition.x);
     
 }
