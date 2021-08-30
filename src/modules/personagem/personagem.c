@@ -130,7 +130,7 @@ int boostTimer(int *frames, int *boost) {
     return 0;
 }
 
-int checkBoost(Player *player, Rectangle boostRec, int *boost, int *frameCounter){
+int checkBoost(Player *player, Rectangle boostRec, int *boost, int *frameCounter, int *points){
     int isImortal = 0;
     if(CheckCollisionRecs((*player).playerHitbox, boostRec)){
         (*boost) = 1;
