@@ -21,6 +21,13 @@ int checkPoints(Rectangle player, Rectangle item, int *points) {
     return 0;
 }
 
+int checkMorte(Rectangle player, Rectangle obstacules) {
+    if (CheckCollisionRecs(player, obstacules)) {
+        return 1;
+    }
+    return 0;
+}
+
 void menuScreen() {
     /* 
         2.7 -> Escala utilizada para reduzir a largura.
@@ -50,6 +57,7 @@ void menuScreen() {
     InitAudioDevice();
 
     Sound fxWav = LoadSound("./src/asserts/sounds/gloria_a_deux.wav");
+    Sound urss = LoadSound("./src/asserts/sounds/URSS.mp3");
     Music backgroundSong = LoadMusicStream("./src/asserts/sounds/ameno8bit.mp3");
 
     Image backgroundImage = LoadImage("./src/asserts/menu/fundo.png");
@@ -224,7 +232,17 @@ void menuScreen() {
                 if (checkPoints(player1.playerHitbox, items[0].rect, &points)) {
                     items[0] = reset_position_of_the_items(items[0], player1.playerPosition.x);
                     PlaySound(fxWav);
+                }; 
+
+                if ((checkMorte(player1.playerHitbox, obstacles[0].rect)) ||(checkMorte(player1.playerHitbox, obstacles[1].rect)) || (checkMorte(player1.playerHitbox, obstacles[2].rect)) ||(checkMorte(player1.playerHitbox, obstacles[3].rect)))    {
+                    for(int i=0;i<3;i++){
+                        obstacles[i] = reset_position_of_the_obstacule(obstacles[i]);
+
+                    }
+                    player1=initPlayer(screenWidth, screenHeight);
+                    currentScreen = MORTE;
                 };
+
 
                 if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
                     DrawTexture(backButtonHover, 10, 600, WHITE);
@@ -263,7 +281,7 @@ void menuScreen() {
                 if(chooseAfterDeath == 0) {
                     currentScreen = MENU;
                 }
-                else if(chooseAfterDeath == 1) {
+                if(chooseAfterDeath == 1) {
                     currentScreen = JOGAR;
                 }
 
@@ -294,4 +312,5 @@ void menuScreen() {
     UnloadFont(font); 
     UnloadTexture(background);
     UnloadSound(fxWav);
+    UnloadSound(urss);
 }
