@@ -50,7 +50,7 @@ float* calculate_vel_x_and_vel_y_of_the_obstacule(Obstacule obstacule, float pla
     float delta_x = abs(obstacule.rect.x - player_x) + (rand() % 10);
     float delta_y = abs(obstacule.rect.y - player_y);
 
-    tangent = delta_x / (delta_y + 1);
+    tangent = (delta_x + (rand() % 5)) / (delta_y + (rand() % 5) + 1);
     velocities[1] = sqrt((vel_module / tangent));
     velocities[0] = velocities[1] * tangent * direction;
 

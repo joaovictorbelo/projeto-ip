@@ -23,6 +23,14 @@ int checkPoints(Rectangle player, Rectangle item, int *points) {
     return 0;
 }
 
+int checkMorte(Rectangle player, Rectangle obstacules) {
+    if (CheckCollisionRecs(player, obstacules)) {
+        return 1;
+    }
+    return 0;
+}
+
+
 void menuScreen() {
     /* 
         2.7 -> Escala utilizada para reduzir a largura.
@@ -102,7 +110,6 @@ void menuScreen() {
     ImageResize(&versiculoImage, versiculoImage.width*1.3, versiculoImage.height*1.3);
     ImageResize(&gameButtonImage, gameButtonImage.width/2.7, gameButtonImage.height/2.9);
     ImageResize(&gameButtonImageHover, gameButtonImageHover.width/2.7, gameButtonImageHover.height/2.9);
-
 
 
     Texture2D background = LoadTextureFromImage(backgroundImage);
@@ -224,8 +231,7 @@ void menuScreen() {
                 ClearBackground(RAYWHITE);
                 UpdateMusicStream(backgroundSong);
                 generateCenario(backgroundInGame, &scrollingBack, points, obstacles, obstacules2d, items, items2d, player1);
-                //update_obstacules(obstacles, numberOfObstacules, obstacules2d);
-                //update_items(items, 1, items2d);
+
                 DrawTexture(backButton, 10, 600, WHITE);
 
                 updatePlayer(&player1, screenWidth, screenHeight, 0.5, &frameCounter, cabo1, cabo2, cabo3, boost);
@@ -246,7 +252,11 @@ void menuScreen() {
                 //TODO   checkBoost(&player1, ***BIBLIA AQUI***, &boost, &boostFrameCounter);
 
                 //--------------------------------------------------------
-
+                if((checkMorte(player1.playerHitbox, obstacles[0].rect)) || (checkMorte(player1.playerHitbox, obstacles[1].rect)) || (checkMorte(player1.playerHitbox, obstacles[2].rect)) ||(checkMorte(player1.playerHitbox, obstacles[3].rect))) {
+                    obstacles = obstacules_init(NUMBER_OF_OBSTACLES);
+                    player1 = initPlayer(screenWidth, screenHeight);
+                    currentScreen = MORTE;
+                };
                               
                 if (points >= 200) {
                     currentScreen = VICTORY;
@@ -281,7 +291,10 @@ void menuScreen() {
                 if(chooseAfterDeath == 0) {
                     currentScreen = MENU;
                 }
-                else if(chooseAfterDeath == 1) {
+                if(chooseAfterDeath == 1) {
+                    obstacles = obstacules_init(NUMBER_OF_OBSTACLES);
+                    player1 = initPlayer(screenWidth, screenHeight);
+
                     currentScreen = JOGAR;
                 }
 
