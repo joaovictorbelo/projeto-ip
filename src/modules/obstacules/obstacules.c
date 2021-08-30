@@ -116,9 +116,6 @@ void update_obstacules(Obstacule* obstacules_obstacules,
                                                             player.playerPosition.y); 
                 obstacules_obstacules[i].velocities.vx = velocies_aux[0];
                 obstacules_obstacules[i].velocities.vy = velocies_aux[1];
-                if(i == 0) {
-                    printf("%f %f\n", obstacules_obstacules[i].velocities.vx, obstacules_obstacules[i].velocities.vy);
-                }
                 free(velocies_aux);
             }
             
