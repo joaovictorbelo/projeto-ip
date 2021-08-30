@@ -9,7 +9,7 @@
 #include "../lost/lost.h"
 #include "../comojogar/comojogar.h"
 #define NUMBER_OF_OBSTACLES 4
-
+#define NUMBER_OF_ITEMS 2
 typedef enum gameScreen {MENU, JOGAR,COMOJOGAR, HISTORIA, MORTE ,SAIR} gameScreen;
 
 int checkPoints(Rectangle player, Rectangle item, int *points) {
@@ -74,7 +74,7 @@ void menuScreen() {
     Image LostBackgroundImage = loadImageOfLostScreen(screenWidth, screenHeight);
     
     Image* obstaculesImages = obstacules_image(NUMBER_OF_OBSTACLES);
-    Image* itemsImages = items_image(1);
+    Image* itemsImages = items_image(NUMBER_OF_ITEMS);
     
 
     ImageResize(&backgroundImage, screenWidth, screenHeight);
@@ -127,13 +127,13 @@ void menuScreen() {
     Texture2D cabo3 = LoadTexture("./src/asserts/jogador/cabo3.png");
 
     Texture2D* obstacules2d = malloc(sizeof(Texture2D) * 1);
-    Texture2D* items2d = malloc(sizeof(Texture2D) * 1);
+    Texture2D* items2d = malloc(sizeof(Texture2D) * NUMBER_OF_ITEMS);
      
     obstacules2d = obstacules_texture_2d(NUMBER_OF_OBSTACLES, obstaculesImages);
-    items2d = items_texture_2d(1, itemsImages);
+    items2d = items_texture_2d(NUMBER_OF_ITEMS, itemsImages);
 
     Obstacule* obstacles = obstacules_init(NUMBER_OF_OBSTACLES);
-    Items* items = itemsInit(1);
+    Items* items = itemsInit(NUMBER_OF_ITEMS);
     int points = 0;
     int frameCounter = 0;
 
