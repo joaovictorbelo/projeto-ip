@@ -7,6 +7,7 @@
 #include "../cenario/cenario.h"
 #include "../items/items.h"
 #include "../lost/lost.h"
+#include "../comojogar/comojogar.h"
 #define NUMBER_OF_OBSTACLES 4
 
 typedef enum gameScreen {MENU, JOGAR,COMOJOGAR, HISTORIA, MORTE ,SAIR} gameScreen;
@@ -23,6 +24,7 @@ void menuScreen() {
     int chooseAfterDeath = -1;
 
     int actualPosOfHistoryText = 0;
+    int actualPosOfGameText = 0;
 
     int shouldContinueInTheAnotherScreen = 1;
     
@@ -48,6 +50,8 @@ void menuScreen() {
     Image backButtonImageHover = LoadImage("./src/asserts/menu/voltar-hover.png");
     Image returnButtonImage = LoadImage("./src/asserts/menu/return.png");
     Image returnButtonImageHover = LoadImage("./src/asserts/menu/return-hover.png");
+    Image gameButtonImage = LoadImage("./src/asserts/menu/comojogar.png");
+    Image gameButtonImageHover = LoadImage("./src/asserts/menu/comojogar-hover.png");
     Image esquerdoImage = LoadImage("./src/asserts/controls/esquerdo.png");
     Image cimaImage = LoadImage("./src/asserts/controls/cima.png");
     Image direitoImage = LoadImage("./src/asserts/controls/direito.png");
@@ -76,6 +80,8 @@ void menuScreen() {
     ImageResize(&direitoImage, direitoImage.width/10, direitoImage.height/10);
     ImageResize(&bibliaImage, bibliaImage.width*1.3, bibliaImage.height*1.3);
     ImageResize(&versiculoImage, versiculoImage.width*1.3, versiculoImage.height*1.3);
+    ImageResize(&gameButtonImage, gameButtonImage.width/2.7, gameButtonImage.height/2.9);
+    ImageResize(&gameButtonImageHover, gameButtonImageHover.width/2.7, gameButtonImageHover.height/2.9);
 
 
 
@@ -132,10 +138,13 @@ void menuScreen() {
     UnloadImage(direitoImage);
     UnloadImage(bibliaImage);
     UnloadImage(versiculoImage);
+    UnloadImage(gameButtonImage);
+    UnloadImage(gameButtonImageHover);
     unloadALlObstaculesImages(NUMBER_OF_OBSTACLES, obstaculesImages);
     unloadALlItemsImages(1, itemsImages);
+
     Rectangle playButtonBounds = { screenWidth/2.0 - playButtonImage.width/2.0, 275, playButtonImage.width, playButtonImage.height };
-    Rectangle gameButtonBounds = { screenWidth/2.0 - gameButtonImage.width/2.0, 375, gameButtonImage.width, gameButtonImage.height };
+    Rectangle gameButtonBounds = { screenWidth/2.0 - gameButtonImage.width/2.0, 360, gameButtonImage.width, gameButtonImage.height };
     Rectangle storyButtonBounds = { screenWidth/2.0 - storyButtonImage.width/2.0, 475, storyButtonImage.width, storyButtonImage.height };
     Rectangle exitButtonBounds = { screenWidth/2.0 - exitButtonImage.width/2.0, 575, exitButtonImage.width, exitButtonImage.height };
     Rectangle backButtonBounds = { 10, 600, backButtonImage.width, backButtonImage.height };
@@ -154,22 +163,30 @@ void menuScreen() {
             case MENU:
                 DrawTexture(background, 0.0, 0.0, WHITE);
                 DrawTexture(title, 0.0, 0.0, WHITE);
+
                 DrawTexture(playButton, (screenWidth / 2.0 - playButtonImage.width / 2.0), 275, WHITE);
-                DrawTexture(storyButton, (screenWidth / 2.0 - storyButtonImage.width / 2.0), 375, WHITE);
-                DrawTexture(exitButton, (screenWidth / 2.0 - exitButtonImage.width / 2.0), 475, WHITE);
+                DrawTexture(gameButton, (screenWidth / 2.0 - gameButtonImage.width / 2.0), 360, WHITE);
+                DrawTexture(storyButton, (screenWidth / 2.0 - storyButtonImage.width / 2.0), 475, WHITE);
+                DrawTexture(exitButton, (screenWidth / 2.0 - exitButtonImage.width / 2.0), 575, WHITE);
 
                 if (CheckCollisionPointRec(mousePos, playButtonBounds)) {
                     DrawTexture(playButtonHover, (screenWidth / 2.0 - playButtonImage.width / 2.0), 275, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = JOGAR;
                 }
+
+                if (CheckCollisionPointRec(mousePos, gameButtonBounds)) {
+                    DrawTexture(gameButtonHover, (screenWidth / 2.0 - gameButtonImage.width / 2.0), 360, WHITE);
+                    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = COMOJOGAR;
+                }
                 
                 if (CheckCollisionPointRec(mousePos, storyButtonBounds)) {
-                    DrawTexture(storyButtonHover, (screenWidth / 2.0 - storyButtonImage.width / 2.0), 375, WHITE);
+                    DrawTexture(storyButtonHover, (screenWidth / 2.0 - storyButtonImage.width / 2.0), 475, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = HISTORIA;
                 }
 
+
                 if (CheckCollisionPointRec(mousePos, exitButtonBounds)) {
-                    DrawTexture(exitButtonHover, (screenWidth / 2.0 - exitButtonImage.width / 2.0), 475, WHITE);
+                    DrawTexture(exitButtonHover, (screenWidth / 2.0 - exitButtonImage.width / 2.0), 575, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = SAIR;
                 }
                 break;
@@ -195,11 +212,10 @@ void menuScreen() {
             case COMOJOGAR:
                 ClearBackground(RAYWHITE);
 
-                actualPosOfGameText = comoJogarScreen(background, font, returnButton, returnButtonHover,caboMau,ciroNovo,
-                satMexico,satUrss,sat,esquerdo,cima,direito,biblia, versiculo, 
+                actualPosOfGameText = comoJogarScreen(background, font, returnButton, returnButtonHover,obstacules2d,esquerdo,cima,direito,biblia, versiculo, 
                 actualPosOfGameText);
                 
-                if(actualPosOfHistoryText == -1) {
+                if(actualPosOfGameText == -1) {
                     currentScreen = MENU;
                 }
                 
@@ -248,6 +264,8 @@ void menuScreen() {
     UnloadTexture(backButtonHover);
     UnloadTexture(returnButton);
     UnloadTexture(returnButtonHover);
+    UnloadTexture(gameButton);
+    UnloadTexture(gameButtonHover);
     UnloadFont(font); 
     UnloadTexture(background);
 }

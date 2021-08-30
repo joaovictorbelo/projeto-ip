@@ -40,10 +40,10 @@ int framesCounter){
     DrawTextEx(font, "O jogo possui os movimentos de andar para FRENTE, para TRAS e PULAR. ",fontPositionLegenda1, 20, 0, WHITE); 
 
     DrawTextEx(font, "Evite os seguintes obstaculos:  ",fontPosition2, 25, 0, WHITE); 
-    DrawTexture(obstacules[0], 50, 350, WHITE);
-    DrawTexture(obstacules[1], 150, 350, WHITE);
-    DrawTexture(obstacules[2], 220, 350, WHITE);
-    DrawTexture(obstacules[3], 310, 350, WHITE);
+    DrawTexture(texturesObstacules[0], 50, 350, WHITE);
+    DrawTexture(texturesObstacules[1], 150, 350, WHITE);
+    DrawTexture(texturesObstacules[2], 220, 350, WHITE);
+    DrawTexture(texturesObstacules[3], 310, 350, WHITE);
     DrawTextEx(font, "O jogo possui como obstaculos que fazem o jogador PERDER, os seguintes itens : CABO DACIOLO COMUNISTA,\nCIRO GOMES, SATELITE MEXICANO, SATELITE COMUNISTA e SATELITE. ",fontPositionLegenda2, 20, 0, WHITE); 
 
     DrawTextEx(font, "Esses itens dao bonus:  ",fontPosition3, 25, 0, WHITE); 
