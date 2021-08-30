@@ -11,6 +11,15 @@
 
 typedef enum gameScreen {MENU, JOGAR, HISTORIA, MORTE ,SAIR} gameScreen;
 
+int checkPoints(Rectangle player, Rectangle item, int *points) {
+    if (CheckCollisionRecs(player, item)) {
+        (*points) += 5;
+        return 1;
+    }
+
+    return 0;
+}
+
 void menuScreen() {
     /* 
         2.7 -> Escala utilizada para reduzir a largura.
@@ -31,10 +40,13 @@ void menuScreen() {
     Vector2 mousePos = {0.0f, 0.0f};
     
     gameScreen currentScreen = MENU;
-    Rectangle player = {30, 30, 80, 80};
 
     InitWindow(screenWidth, screenHeight, "Destroievski");
     SetTargetFPS(120);
+
+    InitAudioDevice();
+
+    Sound fxWav = LoadSound("./src/asserts/sounds/pointUp.wav");
 
     Image backgroundImage = LoadImage("./src/asserts/menu/fundo.png");
     Image titleImage = LoadImage("./src/asserts/menu/nome.png");
@@ -158,6 +170,11 @@ void menuScreen() {
 
                 updatePlayer(&player1, screenWidth, screenHeight, 0.5, &frameCounter);
 
+                if (checkPoints(player1.playerHitbox, items[0].rect, &points)) {
+                    items[0] = reset_position_of_the_items(items[0]);
+                    PlaySound(fxWav);
+                };
+
                 if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
                     DrawTexture(backButtonHover, 10, 600, WHITE);
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = MENU;
@@ -212,4 +229,5 @@ void menuScreen() {
     UnloadTexture(returnButtonHover);
     UnloadFont(font); 
     UnloadTexture(background);
+    UnloadSound(fxWav);
 }
