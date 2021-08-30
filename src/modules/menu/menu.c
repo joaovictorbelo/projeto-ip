@@ -83,6 +83,9 @@ void menuScreen() {
     Texture2D backgroundInLostScreen = LoadTextureFromImage(LostBackgroundImage);
 
     Texture2D backgroundInGame = LoadTexture("./src/asserts/cenario/backgroundGameplay.png");
+    Texture2D cabo1 = LoadTexture("./src/asserts/jogador/cabo1.png");
+    Texture2D cabo2 = LoadTexture("./src/asserts/jogador/cabo2.png");
+    Texture2D cabo3 = LoadTexture("./src/asserts/jogador/cabo3.png");
 
     Texture2D* obstacules2d = malloc(sizeof(Texture2D) * 1);
     Texture2D* items2d = malloc(sizeof(Texture2D) * 1);
@@ -151,12 +154,12 @@ void menuScreen() {
             
             case JOGAR:
                 ClearBackground(RAYWHITE);
-                generateCenario(backgroundInGame, &scrollingBack, points, obstacles, obstacules2d, items, items2d);
+                generateCenario(backgroundInGame, &scrollingBack, points, obstacles, obstacules2d, items, items2d, player1);
                 //update_obstacules(obstacles, numberOfObstacules, obstacules2d);
                 //update_items(items, 1, items2d);
                 DrawTexture(backButton, 10, 600, WHITE);
 
-                updatePlayer(&player1, screenWidth, screenHeight, 0.5, &frameCounter);
+                updatePlayer(&player1, screenWidth, screenHeight, 0.5, &frameCounter, cabo1, cabo2, cabo3);
 
                 if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
                     DrawTexture(backButtonHover, 10, 600, WHITE);

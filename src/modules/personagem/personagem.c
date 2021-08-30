@@ -26,10 +26,8 @@ Player initPlayer(int screenWidth, int screenHeight){
     return player;
 }
 
-void renderPlayerWalking(Player player, int *frameCounter) {
-    Texture2D cabo1 = LoadTexture("./src/asserts/jogador/cabo1.png");
-    Texture2D cabo2 = LoadTexture("./src/asserts/jogador/cabo2.png");
-    Texture2D cabo3 = LoadTexture("./src/asserts/jogador/cabo3.png");
+void renderPlayerWalking(Player player, int *frameCounter, Texture2D cabo1, Texture2D cabo2, Texture2D cabo3) {
+
 
     if ((*frameCounter) >= 0 && (*frameCounter) <= 15) {
         DrawTextureEx(cabo2, (Vector2)player.playerPosition,0.0f, 1.0f, WHITE);
@@ -48,13 +46,13 @@ void renderPlayerWalking(Player player, int *frameCounter) {
     (*frameCounter)++;
 }
 
-void renderPlayerStanding(Player player) {
-    Texture2D cabo1 = LoadTexture("./src/asserts/jogador/cabo1.png");
+void renderPlayerStanding(Player player, Texture2D cabo1) {
     
     DrawTextureEx(cabo1, (Vector2)player.playerPosition,0.0f, 1.0f, WHITE);
 }
 
-void updatePlayer(Player *player, int screenWidth, int screenHeight, float gravity, int *frameCounter){
+void updatePlayer(Player *player, int screenWidth, int screenHeight, float gravity, 
+                    int *frameCounter, Texture2D cabo1, Texture2D cabo2, Texture2D cabo3) {
 
     if ((*player).playerPosition.x > 0) {
 
@@ -86,8 +84,8 @@ void updatePlayer(Player *player, int screenWidth, int screenHeight, float gravi
         (*player).playerHitbox.y = (*player).playerPosition.y;
 
         if (IsKeyDown(KEY_RIGHT)) {
-            renderPlayerWalking(*player, frameCounter);
+            renderPlayerWalking(*player, frameCounter, cabo1, cabo2, cabo3);
         } else {
-            renderPlayerStanding(*player);
+            renderPlayerStanding(*player, cabo1);
         }
 }
