@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include "../menu/menu.h"
 int comoJogarScreen (Texture2D background, Font font, Texture2D returnButton, Texture2D returnButtonHover,Texture2D* texturesObstacules,
-Texture2D esquerdo,Texture2D cima,Texture2D direito,Texture2D biblia,Texture2D versiculo){
+Texture2D esquerdo,Texture2D cima,Texture2D direito,Texture2D biblia,Texture2D versiculo, Texture2D space){
 
     int voltarMenu = 0;
     /////////////////////////////Fonte/////////////////////////////
@@ -36,19 +36,20 @@ Texture2D esquerdo,Texture2D cima,Texture2D direito,Texture2D biblia,Texture2D v
     DrawTexture(esquerdo, 50, 170, WHITE);
     DrawTexture(cima, 130, 175, WHITE);
     DrawTexture(direito, 210, 170, WHITE);
-    DrawTextEx(font, "O jogo possui os movimentos de andar para FRENTE, para TRAS e PULAR. ",fontPositionLegenda1, 23, 0, WHITE); 
+    DrawTexture(space, 290, 175, WHITE);
+    DrawTextEx(font, "O jogo possui os comandos de andar para FRENTE, para TRAS, PULAR e SPRINT. ",fontPositionLegenda1, 23, 0, WHITE); 
 
     DrawTextEx(font, "Evite os seguintes obstaculos:  ",fontPosition2, 25, 0, WHITE); 
     DrawTexture(texturesObstacules[0], 50, 350, WHITE);
     DrawTexture(texturesObstacules[1], 150, 350, WHITE);
     DrawTexture(texturesObstacules[2], 220, 350, WHITE);
     DrawTexture(texturesObstacules[3], 310, 350, WHITE);
-    DrawTextEx(font, "O jogo possui como obstaculos que fazem o jogador PERDER, os seguintes itens : CABO DACIOLO COMUNISTA,\nCIRO GOMES, SATELITE MEXICANO, SATELITE COMUNISTA e SATELITE. ",fontPositionLegenda2, 23, 0, WHITE); 
+    DrawTextEx(font, "Evite os seguintes obstaculos para nao perder: \nCABO DACIOLO COMUNISTA,\nCIRO GOMES, SATELITE MEXICANO e SATELITE COMUNISTA. ",fontPositionLegenda2, 23, 0, WHITE); 
 
-    DrawTextEx(font, "Esses itens dao bonus:  ",fontPosition3, 25, 0, WHITE); 
+    DrawTextEx(font, "Esses itens devem ser coletados:  ",fontPosition3, 25, 0, WHITE); 
     DrawTexture(biblia, 40, 550, WHITE);
     DrawTexture(versiculo, 110, 550, WHITE);
-    DrawTextEx(font, "O jogo possui como itens que fornecem bonus: A BIBLIA (Vale 50 pontos e imortalidade durante x tempo)\n UM VERSICULO ( Vale 10 pontos)  ",fontPositionLegenda3, 23, 0, WHITE); 
+    DrawTextEx(font, "O jogo possui como itens que fornecem bonus:\n A BIBLIA (Imortalidade durante x tempo)\n UM VERSICULO ( Vale 10 pontos)\nO jogo acaba quando 200 pontos forem coletados.  ",fontPositionLegenda3, 23, 0, WHITE); 
 
 
     if (CheckCollisionPointRec(mousePos, returnButtonBounds)) {

@@ -24,6 +24,13 @@ Vector2 continuaScreen (Texture2D background, Font font, Texture2D parte2, int* 
     }
     DrawTexture(parte2,fontPosition.x+90, fontPosition.y+400, WHITE);
 
+    Vector2 postionOfRestart = {50,660};
+    Vector2 positionOfBackMenu = {50,680};
+
+   
+    DrawTextEx(font, "Pressione [ENTER] para jogar de novo!",postionOfRestart, 18, 0, YELLOW); 
+    DrawTextEx(font, "Pressione [SPACE] para voltar ao menu!",positionOfBackMenu, 18, 0, YELLOW);
+
     if (IsKeyPressed(KEY_ENTER)) (*choice) = 1;
     
     if (IsKeyDown(KEY_SPACE)) (*choice) = 2;

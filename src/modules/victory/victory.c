@@ -15,8 +15,7 @@ int drawVictoryScreen(Texture2D background, Font font) {
     Vector2 positionOfBackMenu = {50,680};
     int choice = -1;
    
-    DrawTextEx(font, "Pressione [ENTER] para jogar de novo!",postionOfRestart, 18, 0, YELLOW); 
-    DrawTextEx(font, "Pressione [SPACE] para voltar ao menu!",positionOfBackMenu, 18, 0, YELLOW);
+    DrawTextEx(font, "Pressione [ENTER] continuar para a proxima tela(surpresa rs)", postionOfRestart, 18, 0, YELLOW); 
 
     if (IsKeyPressed(KEY_ENTER)) choice = 1;
     

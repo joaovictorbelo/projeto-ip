@@ -13,15 +13,15 @@ int DrawLostScreen(Texture2D background, Font font) {
     Vector2 positionOfBackMenu = {50,680};
     int optionOfChoose = -1;
    
-    if (IsKeyPressed(KEY_ENTER)) optionOfChoose = 1;
+    if (IsKeyPressed(KEY_R)) optionOfChoose = 1;
     
-    if (IsKeyDown(KEY_SPACE)) optionOfChoose = 0;
+    if (IsKeyDown(KEY_M)) optionOfChoose = 0;
    
 
 
     DrawTexture(background, 0.0, 0.0, WHITE);
-    DrawTextEx(font, "Pressione [ENTER] para reiniciar o jogo!",postionOfRestart, 18, 0, YELLOW); 
-    DrawTextEx(font, "Pressione [SPACE] para voltar ao menu!",positionOfBackMenu, 18, 0, YELLOW); 
+    DrawTextEx(font, "Pressione [R] para reiniciar o jogo!",postionOfRestart, 18, 0, YELLOW); 
+    DrawTextEx(font, "Pressione [M] para voltar ao menu!",positionOfBackMenu, 18, 0, YELLOW); 
     
     return optionOfChoose;
 };

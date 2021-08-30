@@ -92,6 +92,7 @@ void menuScreen() {
     Image esquerdoImage = LoadImage("./src/asserts/controls/esquerdo.png");
     Image cimaImage = LoadImage("./src/asserts/controls/cima.png");
     Image direitoImage = LoadImage("./src/asserts/controls/direito.png");
+    Image spaceImage = LoadImage("./src/asserts/controls/space.png");
     Image bibliaImage = LoadImage("./src/asserts/items/item_biblia.png");
     Image versiculoImage = LoadImage("./src/asserts/items/item_versiculo.png");
     Image parte2Image = LoadImage("./src/asserts/menu/nome2.png");
@@ -119,6 +120,7 @@ void menuScreen() {
     ImageResize(&esquerdoImage, esquerdoImage.width/10, esquerdoImage.height/10);
     ImageResize(&cimaImage, cimaImage.width/10, cimaImage.height/10);
     ImageResize(&direitoImage, direitoImage.width/10, direitoImage.height/10);
+    ImageResize(&spaceImage, spaceImage.width/10, spaceImage.height/10);
     ImageResize(&bibliaImage, bibliaImage.width*1.3, bibliaImage.height*1.3);
     ImageResize(&versiculoImage, versiculoImage.width*1.3, versiculoImage.height*1.3);
     ImageResize(&gameButtonImage, gameButtonImage.width/2.7, gameButtonImage.height/2.9);
@@ -143,6 +145,7 @@ void menuScreen() {
     Texture2D esquerdo = LoadTextureFromImage(esquerdoImage);
     Texture2D cima = LoadTextureFromImage(cimaImage);
     Texture2D direito = LoadTextureFromImage(direitoImage);
+    Texture2D space = LoadTextureFromImage(spaceImage);
     Texture2D biblia = LoadTextureFromImage(bibliaImage);
     Texture2D versiculo = LoadTextureFromImage(versiculoImage);
     Texture2D gameButton = LoadTextureFromImage(gameButtonImage);
@@ -286,7 +289,7 @@ void menuScreen() {
             case COMOJOGAR:
                 ClearBackground(RAYWHITE);
 
-                shouldBackToMenu = comoJogarScreen(background, font, returnButton, returnButtonHover,obstacules2d,esquerdo,cima,direito,biblia, versiculo);
+                shouldBackToMenu = comoJogarScreen(background, font, returnButton, returnButtonHover,obstacules2d,esquerdo,cima,direito,biblia, versiculo, space);
                 
                 if(shouldBackToMenu == 1) {
                     currentScreen = MENU;
@@ -300,7 +303,7 @@ void menuScreen() {
                 actualPosOfHistoryText = historiaScreen(background, font, returnButton, returnButtonHover, 
                 actualPosOfHistoryText);
                 
-                if(actualPosOfHistoryText == 1) {
+                if(actualPosOfHistoryText == -1) {
                     currentScreen = MENU;
                 }
                 
@@ -331,7 +334,6 @@ void menuScreen() {
                 items = itemsInit(1);
 
                 if(choosePlayAgain == 1) currentScreen = CONTINUE;
-                else if(choosePlayAgain == 0) currentScreen = MENU;
 
                 break;
             
