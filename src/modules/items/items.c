@@ -77,7 +77,7 @@ Rectangle* return_all_rectangles_of_items(Items* items_items, int items_number_o
 
 Image* items_image(int items_number_of_items) {
     Image* items_image = (Image*) malloc(sizeof(Image) * items_number_of_items);
-    items_image[0] = LoadImage("./src/asserts/items/item_vesiculo.png");
+    items_image[0] = LoadImage("./src/asserts/items/item_versiculo.png");
     // items_image[1] = LoadImage("src/asserts/items/.png");
     // items_image[2] = LoadImage("src/asserts/items/.png");
 

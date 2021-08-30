@@ -54,15 +54,22 @@ void renderPlayerStanding(Player player, Texture2D cabo1) {
 void updatePlayer(Player *player, int screenWidth, int screenHeight, float gravity, 
                     int *frameCounter, Texture2D cabo1, Texture2D cabo2, Texture2D cabo3) {
 
-    if ((*player).playerPosition.x > 0) {
+    int playerSpeed;
 
+    if (IsKeyDown(KEY_SPACE)){
+        playerSpeed = 5;
+    } else {
+        playerSpeed = 3;
+    }
+
+    if ((*player).playerPosition.x > 0) {
             if (IsKeyDown(KEY_LEFT)) {
-               (*player).playerPosition.x -= 3; 
+               (*player).playerPosition.x -= playerSpeed; 
             }
         }
 
         if (((*player).playerPosition.x < (screenWidth - (*player).playerSize.x)) && IsKeyDown(KEY_RIGHT)) {
-            (*player).playerPosition.x += 3;
+            (*player).playerPosition.x += playerSpeed;
         }
         //----------------------------------------------------------------------------------
 
@@ -83,8 +90,8 @@ void updatePlayer(Player *player, int screenWidth, int screenHeight, float gravi
         (*player).playerHitbox.x = (*player).playerPosition.x;
         (*player).playerHitbox.y = (*player).playerPosition.y;
 
-        if (IsKeyDown(KEY_RIGHT)) {
-            renderPlayerWalking(*player, frameCounter, cabo1, cabo2, cabo3);
+        if (IsKeyDown(KEY_RIGHT) || IsKeyDown(KEY_LEFT)) {
+            renderPlayerWalking(*player, frameCounter);
         } else {
             renderPlayerStanding(*player, cabo1);
         }
