@@ -17,7 +17,7 @@ typedef struct {
 Items* itemsInit(int number_of_max_items) {
     Items* items = malloc(sizeof(Items) * number_of_max_items);
     for (int i = 0; i < number_of_max_items; i++) {
-        items[i].rect.x = 500;
+        items[i].rect.x = 300;
         items[i].rect.y = 10 *(i + 1);
         items[i].rect.width = 40;
         items[i].rect.height = 40;
@@ -50,8 +50,13 @@ float* calculate_vel_x_and_vel_y_of_the_items(ObjectiveItems action_items, float
     return vel_x_and_vel_y_of_the_items;
 }
 
-Items reset_position_of_the_items(Items items) {  
-    items.rect.x = 900;
+Items reset_position_of_the_items(Items items, float playerX) {  
+    float posItem = 0;
+
+    if(playerX > 400 && playerX < 800) posItem = rand() % 1280;
+    else if(playerX >= 800) posItem = rand() % 400;
+    else if(playerX <= 400) posItem = rand() % 400 + 880;
+    items.rect.x = posItem;
     items.rect.y = 20;
     items.objective.x = -1;
     items.objective.y = -1;
@@ -87,18 +92,18 @@ Texture2D* items_texture_2d(int items_number_of_items, Image* items_texture) {
     return items_texture_2d;
 }
 
-void update_items(Items* items_items, int items_number_of_items, Texture2D* items_texture_2d) {
+void update_items(Items* items_items, int items_number_of_items, Texture2D* items_texture_2d, float playerX) {
     int r = 0;
     for (int i = 0; i < items_number_of_items; i++) {
 
         if(items_items[i].rect.y > 700) { 
-            items_items[i] = reset_position_of_the_items(items_items[i]);
+            items_items[i] = reset_position_of_the_items(items_items[i], playerX);
         }
         else {
             items_items[i].is_active = 1;
             
             if(items_items[i].is_active == 1) {
-                items_items[i].rect.y += rand() % 5;
+                items_items[i].rect.y += rand() % 7;
                 // items_items[i].rect.x -= rand() % 5;
             }
         }
