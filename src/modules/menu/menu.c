@@ -14,7 +14,7 @@ typedef enum gameScreen {MENU, JOGAR,COMOJOGAR, HISTORIA, MORTE ,SAIR} gameScree
 
 int checkPoints(Rectangle player, Rectangle item, int *points) {
     if (CheckCollisionRecs(player, item)) {
-        (*points) += 5;
+        (*points) += 10;
         return 1;
     }
 
@@ -136,6 +136,8 @@ void menuScreen() {
     Items* items = itemsInit(1);
     int points = 0;
     int frameCounter = 0;
+    int boostFrameCounter = 0;
+    int boost = 0;
 
     UnloadImage(backgroundImage);
     UnloadImage(titleImage);
@@ -165,6 +167,10 @@ void menuScreen() {
     Rectangle storyButtonBounds = { screenWidth/2.0 - storyButtonImage.width/2.0, 475, storyButtonImage.width, storyButtonImage.height };
     Rectangle exitButtonBounds = { screenWidth/2.0 - exitButtonImage.width/2.0, 575, exitButtonImage.width, exitButtonImage.height };
     Rectangle backButtonBounds = { 10, 600, backButtonImage.width, backButtonImage.height };
+
+    //--------------------------- teste-----------------------
+    Rectangle boostRec = {screenWidth/2.0, screenHeight-50, 50, 50};
+    //--------------------------------------------------------
     
 
     Font font = LoadFont("./src/font/BarlowCondensed-SemiBold.ttf"); 
@@ -219,7 +225,7 @@ void menuScreen() {
                 //update_items(items, 1, items2d);
                 DrawTexture(backButton, 10, 600, WHITE);
 
-                updatePlayer(&player1, screenWidth, screenHeight, 0.5, &frameCounter, cabo1, cabo2, cabo3);
+                updatePlayer(&player1, screenWidth, screenHeight, 0.5, &frameCounter, cabo1, cabo2, cabo3, boost);
 
                 if (checkPoints(player1.playerHitbox, items[0].rect, &points)) {
                     items[0] = reset_position_of_the_items(items[0], player1.playerPosition.x);
@@ -231,6 +237,12 @@ void menuScreen() {
                     if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = MENU;
                     //currentScreen = MORTE;
                 }
+
+                //--------------------------- teste-----------------------
+                    DrawRectangleRec(boostRec, GREEN);
+                //--------------------------------------------------------
+                
+                checkBoost(&player1, boostRec, &boost, &boostFrameCounter);
 
                               
                 break;
