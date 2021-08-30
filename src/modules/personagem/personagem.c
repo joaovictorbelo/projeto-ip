@@ -11,7 +11,7 @@ typedef struct Player{
 Player initPlayer(int screenWidth, int screenHeight){
     Player player;
 
-    player.playerSize = (Vector2){30, 85};
+    player.playerSize = (Vector2){30, 125};
     player.playerPosition = (Vector2){0, screenHeight - player.playerSize.y};
 
     player.Yvelocity = 0;
