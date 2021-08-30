@@ -167,10 +167,6 @@ void menuScreen() {
     Rectangle storyButtonBounds = { screenWidth/2.0 - storyButtonImage.width/2.0, 475, storyButtonImage.width, storyButtonImage.height };
     Rectangle exitButtonBounds = { screenWidth/2.0 - exitButtonImage.width/2.0, 575, exitButtonImage.width, exitButtonImage.height };
     Rectangle backButtonBounds = { 10, 600, backButtonImage.width, backButtonImage.height };
-
-    //--------------------------- teste-----------------------
-    Rectangle boostRec = {screenWidth/2.0, screenHeight-50, 50, 50};
-    //--------------------------------------------------------
     
 
     Font font = LoadFont("./src/font/BarlowCondensed-SemiBold.ttf"); 
@@ -238,11 +234,11 @@ void menuScreen() {
                     //currentScreen = MORTE;
                 }
 
-                //--------------------------- teste-----------------------
-                    DrawRectangleRec(boostRec, GREEN);
+                //----------------teste de colisão do boost---------------
+
+                //TODO   checkBoost(&player1, ***BIBLIA AQUI***, &boost, &boostFrameCounter);
+
                 //--------------------------------------------------------
-                
-                checkBoost(&player1, boostRec, &boost, &boostFrameCounter);
 
                               
                 break;
