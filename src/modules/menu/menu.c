@@ -273,7 +273,7 @@ void menuScreen() {
                 //--------------------------------------------------------
                 recObstacules = return_all_rectangles_of_obstacules(obstacles, NUMBER_OF_OBSTACLES);
 
-                if(checkMorte(player1.playerHitbox, obstacles, NUMBER_OF_OBSTACLES)){
+                if(checkMorte(player1.playerHitbox, recObstacules, NUMBER_OF_OBSTACLES)){
                     if(player1IsIMortal == 0) {
                         obstacles = obstacules_init(NUMBER_OF_OBSTACLES, obstacules2d);
                         player1 = initPlayer(screenWidth, screenHeight);
@@ -281,7 +281,7 @@ void menuScreen() {
                     }
                 };
                               
-                if (points >= 10) {
+                if (points >= 200) {
                     currentScreen = VICTORY;
                 }          
                 break;
