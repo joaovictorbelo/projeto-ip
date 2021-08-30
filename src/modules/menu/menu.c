@@ -23,11 +23,15 @@ int checkPoints(Rectangle player, Rectangle item, int *points) {
     return 0;
 }
 
-int checkMorte(Rectangle player, Rectangle obstacules) {
-    if (CheckCollisionRecs(player, obstacules)) {
-        return 1;
+int checkMorte(Rectangle player, Rectangle* obstacules, int number_of_obstacules) {
+    int i = 0;
+    int flag = 0;
+    for (i = 0; i < number_of_obstacules && (flag == 0); i++) {
+        if (CheckCollisionRecs(player, obstacules[i])) {
+            flag = 1;
+        }
     }
-    return 0;
+    return flag;
 }
 
 
@@ -50,10 +54,15 @@ void menuScreen() {
 
     int shouldContinueInTheAnotherScreen = 1;
     
+    int player1IsIMortal = 0;
+
     float scrollingBack = 0.0f;
     
     Vector2 mousePos = {0.0f, 0.0f};
     
+    Rectangle recBoost = {0.0f, 0.0f, 0.0f, 0.0f};
+    Rectangle* recObstacules = NULL;
+
     gameScreen currentScreen = MENU;
 
     InitWindow(screenWidth, screenHeight, "Destroievski");
@@ -146,7 +155,7 @@ void menuScreen() {
     obstacules2d = obstacules_texture_2d(NUMBER_OF_OBSTACLES, obstaculesImages);
     items2d = items_texture_2d(NUMBER_OF_ITEMS, itemsImages);
 
-    Obstacule* obstacles = obstacules_init(NUMBER_OF_OBSTACLES);
+    Obstacule* obstacles = obstacules_init(NUMBER_OF_OBSTACLES, obstacules2d);
     Items* items = itemsInit(NUMBER_OF_ITEMS);
     int points = 0;
     int frameCounter = 0;
@@ -248,14 +257,19 @@ void menuScreen() {
                 }
 
                 //----------------teste de colisão do boost---------------
+                    recBoost = BoostRectangle(items);
 
-                //TODO   checkBoost(&player1, ***BIBLIA AQUI***, &boost, &boostFrameCounter);
+                    player1IsIMortal = checkBoost(&player1, recBoost, &boost, &boostFrameCounter);
 
                 //--------------------------------------------------------
-                if((checkMorte(player1.playerHitbox, obstacles[0].rect)) || (checkMorte(player1.playerHitbox, obstacles[1].rect)) || (checkMorte(player1.playerHitbox, obstacles[2].rect)) ||(checkMorte(player1.playerHitbox, obstacles[3].rect))) {
-                    obstacles = obstacules_init(NUMBER_OF_OBSTACLES);
-                    player1 = initPlayer(screenWidth, screenHeight);
-                    currentScreen = MORTE;
+                recObstacules = return_all_rectangles_of_obstacules(obstacles, NUMBER_OF_OBSTACLES);
+
+                if(checkMorte(player1.playerHitbox, obstacles, NUMBER_OF_OBSTACLES)){
+                    if(player1IsIMortal == 0) {
+                        obstacles = obstacules_init(NUMBER_OF_OBSTACLES, obstacules2d);
+                        player1 = initPlayer(screenWidth, screenHeight);
+                        currentScreen = MORTE;
+                    }
                 };
                               
                 if (points >= 200) {
@@ -292,7 +306,7 @@ void menuScreen() {
                     currentScreen = MENU;
                 }
                 if(chooseAfterDeath == 1) {
-                    obstacles = obstacules_init(NUMBER_OF_OBSTACLES);
+                    obstacles = obstacules_init(NUMBER_OF_OBSTACLES, obstacules2d);
                     player1 = initPlayer(screenWidth, screenHeight);
 
                     currentScreen = JOGAR;
@@ -307,7 +321,7 @@ void menuScreen() {
                 points = 0;
 
                 player1 = initPlayer(screenWidth, screenHeight);
-                obstacles = obstacules_init(NUMBER_OF_OBSTACLES);
+                obstacles = obstacules_init(NUMBER_OF_OBSTACLES, obstacules2d);
                 items = itemsInit(1);
 
                 if(choosePlayAgain == 1) currentScreen = JOGAR;

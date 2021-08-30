@@ -17,13 +17,13 @@ typedef struct {
     int should_send_new_velocities;
 } Obstacule;
 
-Obstacule* obstacules_init(int number_of_max_obstacules) {
+Obstacule* obstacules_init(int number_of_max_obstacules, Texture2D* texturesObs) {
     Obstacule* obstacules = malloc(sizeof(Obstacule) * number_of_max_obstacules);
     for (int i = 0; i < number_of_max_obstacules; i++) {
         obstacules[i].rect.x = rand() % 901;
         obstacules[i].rect.y = -20;
-        obstacules[i].rect.width = 40;
-        obstacules[i].rect.height = 40;
+        obstacules[i].rect.width = texturesObs[i].width;
+        obstacules[i].rect.height = texturesObs[i].height;
         obstacules[i].is_active = 0;
         obstacules[i].should_send_new_velocities = 1;
     }
@@ -135,9 +135,4 @@ void unloadALlObstaculesImages(int NumOfObstacules, Image* imagesOfObstacules) {
         UnloadImage(imagesOfObstacules[i]);
     }
 
-};
-
-void init_module_obstacules() {
-    Rectangle* obstacules_obstacules = obstacules_init(5);
-    int obstacules_number_of_obstacules = 5;
 };

@@ -18,8 +18,8 @@ typedef struct {
 Items* itemsInit(int number_of_max_items) {
     Items* items = malloc(sizeof(Items) * number_of_max_items);
     for (int i = 0; i < number_of_max_items; i++) {
-        items[i].rect.x = 300;
-        items[i].rect.y = 10 *(i + 1);
+        items[i].rect.x = rand() % 901;
+        items[i].rect.y = -20;
         items[i].rect.width = 40;
         items[i].rect.height = 40;
         items[i].objective.x = -1;
@@ -41,6 +41,9 @@ void render_items(Items* items_items, int items_number_of_items,  Texture2D* ite
             DrawTexture(items_texture_2d[i], items_items[i].rect.x, items_items[i].rect.y, WHITE);
         }
     }
+}
+Rectangle BoostRectangle(Items* items_items) {
+    return items_items[1].rect;
 }
 
 ObjectiveItems create_action_items(Rectangle actual_obs, float player_x, float player_y) {
@@ -65,6 +68,7 @@ Items reset_position_of_the_items(Items items, float playerX) {
     if(playerX > 400 && playerX < 800) posItem = rand() % 1280;
     else if(playerX >= 800) posItem = rand() % 400;
     else if(playerX <= 400) posItem = rand() % 400 + 880;
+
     items.rect.x = posItem;
     items.rect.y = 20;
     items.objective.x = -1;

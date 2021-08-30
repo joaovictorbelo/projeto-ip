@@ -12,6 +12,8 @@ Player initPlayer(int screenWidth, int screenHeight){
     Player player;
 
     player.playerSize = (Vector2){30, 125};
+    // player.playerSize = (Vector2){30, 85};
+
     player.playerPosition = (Vector2){0, screenHeight - player.playerSize.y};
 
     player.Yvelocity = 0;
@@ -95,7 +97,12 @@ void updatePlayer(Player *player, int screenWidth, int screenHeight, float gravi
         }
 
         (*player).playerPosition.y -= (*player).Yvelocity;
+        
         (*player).Yvelocity -= gravity;
+        
+        if((*player).playerPosition.y > screenHeight - 125) { 
+            (*player).playerPosition.y = screenHeight - (*player).playerSize.y;
+        }
         //----------------------------------------------------------------------------------
 
         (*player).playerHitbox.x = (*player).playerPosition.x;
@@ -121,18 +128,21 @@ int boostTimer(int *frames, int *boost) {
     return 0;
 }
 
-void checkBoost(Player *player, Rectangle boostRec, int *boost, int *frameCounter){
+int checkBoost(Player *player, Rectangle boostRec, int *boost, int *frameCounter){
+    int isImortal = 0;
     if(CheckCollisionRecs((*player).playerHitbox, boostRec)){
         (*boost) = 1;
-        (*player).playerSize = (Vector2){60, 170};
-        (*player).playerPosition.y -= 85;
+        (*player).playerSize = (Vector2){60, 200};
+        // (*player).playerPosition.y -= 85;
     }
     
     if (*boost) {
         if(boostTimer(frameCounter, boost)) {
-            (*player).playerSize = (Vector2){30, 85};
-            (*player).playerPosition.y += 85;
+            (*player).playerSize = (Vector2){30, 125};
+            // (*player).playerPosition.y = 500;
         };
+        isImortal = 1;
     }
+    return isImortal;
 }
 
