@@ -56,15 +56,22 @@ void renderPlayerStanding(Player player) {
 
 void updatePlayer(Player *player, int screenWidth, int screenHeight, float gravity, int *frameCounter){
 
-    if ((*player).playerPosition.x > 0) {
+    int playerSpeed;
 
+    if (IsKeyDown(KEY_SPACE)){
+        playerSpeed = 5;
+    } else {
+        playerSpeed = 3;
+    }
+
+    if ((*player).playerPosition.x > 0) {
             if (IsKeyDown(KEY_LEFT)) {
-               (*player).playerPosition.x -= 3; 
+               (*player).playerPosition.x -= playerSpeed; 
             }
         }
 
         if (((*player).playerPosition.x < (screenWidth - (*player).playerSize.x)) && IsKeyDown(KEY_RIGHT)) {
-            (*player).playerPosition.x += 3;
+            (*player).playerPosition.x += playerSpeed;
         }
         //----------------------------------------------------------------------------------
 

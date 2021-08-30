@@ -46,7 +46,8 @@ void menuScreen() {
 
     InitAudioDevice();
 
-    Sound fxWav = LoadSound("./src/asserts/sounds/pointUp.wav");
+    Sound fxWav = LoadSound("./src/asserts/sounds/gloria_a_deux.wav");
+    Music backgroundSong = LoadMusicStream("./src/asserts/sounds/ameno8bit.mp3");
 
     Image backgroundImage = LoadImage("./src/asserts/menu/fundo.png");
     Image titleImage = LoadImage("./src/asserts/menu/nome.png");
@@ -132,8 +133,11 @@ void menuScreen() {
 
     Player player1 = initPlayer(screenWidth, screenHeight);
 
+    PlayMusicStream(backgroundSong);
+
     while (!WindowShouldClose() && currentScreen != SAIR) { 
         ClearBackground(RAYWHITE);
+        UpdateMusicStream(backgroundSong);
         mousePos = GetMousePosition();
         BeginDrawing();
         
@@ -163,6 +167,7 @@ void menuScreen() {
             
             case JOGAR:
                 ClearBackground(RAYWHITE);
+                
                 generateCenario(backgroundInGame, &scrollingBack, points, obstacles, obstacules2d, items, items2d, player1.playerPosition.x);
                 //update_obstacules(obstacles, numberOfObstacules, obstacules2d);
                 //update_items(items, 1, items2d);
@@ -171,7 +176,7 @@ void menuScreen() {
                 updatePlayer(&player1, screenWidth, screenHeight, 0.5, &frameCounter);
 
                 if (checkPoints(player1.playerHitbox, items[0].rect, &points)) {
-                    items[0] = reset_position_of_the_items(items[0]);
+                    items[0] = reset_position_of_the_items(items[0], player1.playerPosition.x);
                     PlaySound(fxWav);
                 };
 
