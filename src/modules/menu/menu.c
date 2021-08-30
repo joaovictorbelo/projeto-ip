@@ -278,7 +278,7 @@ void menuScreen() {
                     }
                 };
                               
-                if (points >= 0) {
+                if (points >= 200) {
                     currentScreen = VICTORY;
                 }          
                 break;
