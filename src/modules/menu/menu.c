@@ -167,6 +167,7 @@ void menuScreen() {
     int points = 0;
     int frameCounter = 0;
     int boostFrameCounter = 0;
+    int delayFrameCounter = 0;
     int boost = 0;
 
     UnloadImage(backgroundImage);
@@ -248,9 +249,8 @@ void menuScreen() {
             case JOGAR:
                 ClearBackground(RAYWHITE);
                 UpdateMusicStream(backgroundSong);
-                generateCenario(backgroundInGame, &scrollingBack, points, obstacles, obstacules2d, items, items2d, player1);
-
-                DrawTexture(backButton, 10, 600, WHITE);
+                generateCenario(backgroundInGame, &scrollingBack, points, obstacles, obstacules2d, 
+                    items, items2d, player1, &delayFrameCounter);
 
                 updatePlayer(&player1, screenWidth, screenHeight, 0.5, &frameCounter, cabo1, cabo2, cabo3, boost);
 
@@ -259,16 +259,10 @@ void menuScreen() {
                     PlaySound(fxWav);
                 };
 
-                if(CheckCollisionPointRec(mousePos, backButtonBounds)) {
-                    DrawTexture(backButtonHover, 10, 600, WHITE);
-                    if(IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) currentScreen = MENU;
-                    //currentScreen = MORTE;
-                }
-
                 //----------------teste de colisão do boost---------------
                     recBoost = BoostRectangle(items);
 
-                    player1IsIMortal = checkBoost(&player1, recBoost, &boost, &boostFrameCounter);
+                    player1IsIMortal = checkBoost(&player1, recBoost, &boost, &boostFrameCounter, &points);
 
                 //--------------------------------------------------------
                 recObstacules = return_all_rectangles_of_obstacules(obstacles, NUMBER_OF_OBSTACLES);
@@ -278,6 +272,8 @@ void menuScreen() {
                         obstacles = obstacules_init(NUMBER_OF_OBSTACLES, obstacules2d);
                         player1 = initPlayer(screenWidth, screenHeight);
                         currentScreen = MORTE;
+                        points = 0;
+                        delayFrameCounter = 0;
                     }
                 };
                               
